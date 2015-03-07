@@ -1,23 +1,49 @@
-use util::{V2, color, Anchor};
+use util::{V2, color, Color, Rgba, Anchor};
 use backend::{Key, Event};
 use backend::{CanvasUtil, Fonter, Align};
 use tilecache;
 use ::{Transition, State};
 
-pub struct TitleState;
+pub struct TitleState {
+    tick: usize,
+}
 
 impl TitleState {
-    pub fn new() -> TitleState { TitleState }
+    pub fn new() -> TitleState {
+        TitleState {
+            tick: 0,
+        }
+    }
 
+}
+
+static FADE_TIME: usize = 64;
+
+impl TitleState {
+    fn fade_in<C: Color>(&self, col: &C) -> Rgba {
+        let scale = if self.tick < FADE_TIME { self.tick as f32 }
+            else { FADE_TIME as f32 } / FADE_TIME as f32;
+        let mut rgba = col.to_rgba();
+        for i in 0..4 {
+            rgba[i] *= scale;
+        }
+
+        Color::from_rgba(rgba)
+    }
+
+    fn when_faded<C: Color>(&self, col: C) -> C {
+        if self.tick < FADE_TIME { Color::from_color(&color::BLACK) } else { col }
+    }
 }
 
 impl State for TitleState {
     fn process(&mut self, event: Event) -> Option<Transition> {
+        self.tick += 1;
         match event {
             Event::Render(ctx) => {
-                ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, &color::MEDIUMAQUAMARINE, &color::BLACK);
+                ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, &self.fade_in(&color::MEDIUMAQUAMARINE), &color::BLACK);
                 Fonter::new(ctx)
-                    .color(&color::DARKCYAN)
+                    .color(&self.when_faded(color::DARKCYAN))
                     .anchor(Anchor::Bottom)
                     .align(Align::Center)
                     .text(format!("Copyright (C) Risto Saarelma 2015\nv{}{}", ::version(), if !cfg!(ndebug) { " debug" } else { "" }))
