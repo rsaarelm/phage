@@ -266,12 +266,12 @@ impl GameState {
 
     pub fn save_game(&self) {
         let save_data = world::save();
-        let mut file = File::create(&Path::new("/tmp/magog_save.json"));
+        let mut file = File::create(&Path::new("phage_save.json"));
         file.write_str(&save_data[..]).unwrap();
     }
 
     pub fn load_game(&mut self) {
-        let path = Path::new("/tmp/magog_save.json");
+        let path = Path::new("phage_save.json");
         if !path.exists() { return; }
         let save_data = File::open(&path).read_to_string().unwrap();
         // TODO: Handle failed load nicely.

@@ -54,7 +54,7 @@ pub fn compiler_version() -> String {
 }
 
 pub fn main() {
-    println!("Magog v{}", version());
+    println!("Phage v{}", version());
     println!("{}", compiler_version());
     let mut canvas = backend::CanvasBuilder::new()
         .set_size(SCREEN_W, SCREEN_H)

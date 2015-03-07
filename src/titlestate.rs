@@ -15,12 +15,12 @@ impl State for TitleState {
     fn process(&mut self, event: Event) -> Option<Transition> {
         match event {
             Event::Render(ctx) => {
-                ctx.draw_image(tilecache::get(tilecache::LOGO), V2(274.0, 180.0), 0.0, &color::FIREBRICK, &color::BLACK);
+                ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, &color::MEDIUMAQUAMARINE, &color::BLACK);
                 Fonter::new(ctx)
-                    .color(&color::DARKRED)
+                    .color(&color::DARKCYAN)
                     .anchor(Anchor::Bottom)
                     .align(Align::Center)
-                    .text(format!("Copyright (C) Risto Saarelma 2011 - 2015\nv{}{}", ::version(), if !cfg!(ndebug) { " debug" } else { "" }))
+                    .text(format!("Copyright (C) Risto Saarelma 2015\nv{}{}", ::version(), if !cfg!(ndebug) { " debug" } else { "" }))
                     .draw(V2(320.0, 352.0));
             }
             Event::KeyPressed(Key::Escape) => {
