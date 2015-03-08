@@ -124,14 +124,10 @@ pub enum BrainState {
 /// Used to determine who tries to fight whom.
 #[derive(Copy, Clone, Eq, PartialEq, Debug, RustcEncodable, RustcDecodable)]
 pub enum Alignment {
-    /// Attack anything and everything.
-    Chaotic,
-    /// Player alignment. The noble path of slaughtering everything that moves
-    /// and gets in the way of taking their shiny stuff.
-    Good,
-    /// Enemy alignment. The foul cause of working together to defend your
-    /// home and belongings against a powerful and devious intruder.
-    Evil,
+    Berserk,
+    Phage,
+    Indigenous,
+    Colonist,
 }
 
 

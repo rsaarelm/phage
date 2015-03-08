@@ -37,7 +37,7 @@ impl<C: Component> Fn<(C,)> for Prototype {
 /// Only call at world init!
 pub fn init() {
     let base_mob = Prototype::new(None)
-        (Brain { state: BrainState::Asleep, alignment: Alignment::Evil })
+        (Brain { state: BrainState::Asleep, alignment: Alignment::Indigenous })
         ({let h: Health = Default::default(); h})
         .target;
 
@@ -45,8 +45,8 @@ pub fn init() {
 
     // Player
     Prototype::new(Some(base_mob))
-        (Brain { state: BrainState::PlayerControl, alignment: Alignment::Good })
-        (Desc::new("player", 51, AZURE))
+        (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
+        (Desc::new("player", 51, CYAN))
         (Stats::new(10, &[Hands]).mana(5))
         (MapMemory::new())
         ;
