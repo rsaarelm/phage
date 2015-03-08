@@ -115,7 +115,7 @@ impl<'a> CellDrawable<'a> {
             // XXX: Special case for the solid-black objects that are used to
             // block out stuff to not get recolored. Don't use total black as
             // an actual object color, have something like #010101 instead.
-            Some(FovStatus::Remembered) if *color != BLACK => (BLACK, Rgb::new(0x33, 0x22, 0x00)),
+            Some(FovStatus::Remembered) if *color != BLACK => (BLACK, Rgb::new(0x33, 0x00, 0x22)),
             _ => (*color, *back_color),
         };
         if self.fov == Some(FovStatus::Seen) {
