@@ -154,7 +154,12 @@ impl Entity {
         // The fractional points are one probabilistic hit.
         let partial = (power % 5) as f64 / 5.0;
 
-        let damage = full + if rng::p(partial) { 1 } else { 0 };
+        let mut damage = full + if rng::p(partial) { 1 } else { 0 };
+
+        if self.is_exposed_phage() {
+            // Phage is squishy.
+            damage *= 2;
+        }
         self.apply_damage(damage)
     }
 
@@ -529,7 +534,9 @@ impl Entity {
 
         if self.is_player() && !self.is_exposed_phage() {
             // Host rots gradually.
-            self.damage(1);
+            if rng::p(0.1) {
+                self.damage(1);
+            }
         }
     }
 
