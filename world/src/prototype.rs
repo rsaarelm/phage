@@ -51,7 +51,7 @@ pub fn init() {
     Prototype::new(Some(base_mob))
         (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
         (Desc::new("player", 51, CYAN))
-        (Stats::new(10, &[Hands]).mana(5))
+        (Stats::new(1, &[]))
         (MapMemory::new())
         ;
 

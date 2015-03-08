@@ -2,12 +2,13 @@ use std::default::Default;
 use rand::Rng;
 use util::Dijkstra;
 use util::Rgb;
+use util::color;
 use world;
 use location::{Location};
 use dir6::Dir6;
 use flags;
 use stats::{Intrinsic};
-use components::{BrainState, Alignment};
+use components::{BrainState, Alignment, Brain};
 use geom::HexGeom;
 use spatial::Place;
 use action;
@@ -190,6 +191,13 @@ impl Entity {
     /// deleting it.
     pub fn kill(self) {
         let loc = self.location().expect("no location");
+
+        if self.is_player() && !self.is_exposed_phage() {
+            // Phage is just re-exposed when host dies.
+            self.exit_host();
+            return;
+        }
+
         msgln!("{} dies.", self.name());
         msg::push(::Msg::Gib(loc));
         if rng::one_chance_in(6) {
@@ -256,8 +264,12 @@ impl Entity {
     pub fn melee(self, dir: Dir6) {
         let loc = self.location().expect("no location") + dir.to_v2();
         if let Some(e) = loc.mob_at() {
-            let us = self.stats();
-            e.damage(us.power + us.attack);
+            if self.is_exposed_phage() {
+                self.possess(e);
+            } else {
+                let us = self.stats();
+                e.damage(us.power + us.attack);
+            }
         }
     }
 
@@ -514,6 +526,11 @@ impl Entity {
         if self.is_mob() && !self.is_player() && self.ticks_this_frame() {
             self.mob_ai();
         }
+
+        if self.is_player() && !self.is_exposed_phage() {
+            // Host rots gradually.
+            self.damage(1);
+        }
     }
 
     fn brain_state(self) -> Option<BrainState> {
@@ -675,5 +692,62 @@ impl Entity {
                 }
             });
         }
+    }
+
+// Phage stuff /////////////////////////////////////////////////////////
+
+    /// Self is the exposed phage form, not possessing a host.
+    pub fn is_exposed_phage(self) -> bool {
+        // Hacky, just check the icon index.
+        world::with(|w| w.descs().get(self).map_or(false, |d| d.icon == 51))
+    }
+
+    /// Make the phage possess the target host.
+    pub fn possess(self, target: Entity) {
+        // Hairy ECS trickery to do polymorph.
+        self.reparent(target.parent().unwrap());
+
+        world::with_mut(|w| {
+            // Remove the local description for the previous form.
+            w.descs_mut().remove(self);
+            // Get the prototype description from new parent, with
+            // copy-on-write. Modify it for phage look.
+            {
+                let desc = w.descs_mut().get(self).expect("No prototype desc");
+                desc.name = "phage".to_string();
+                desc.color = color::CYAN;
+            }
+
+            // Central nervous system bypass.
+            w.brains_mut().insert(
+                self,
+                Brain {
+                    state: BrainState::PlayerControl,
+                    alignment: Alignment::Phage,
+                });
+
+            // Go to full health.
+            w.healths_mut().get(self).expect("no health").wounds = 0;
+        });
+
+        let loc = target.location().unwrap();
+        target.delete();
+        self.place(loc);
+    }
+
+    /// Exist a host body and revert to phage form.
+    pub fn exit_host(self) {
+        assert!(self.is_player() && !self.is_exposed_phage());
+
+        self.reparent(action::find_prototype("player").expect("No player prototype"));
+        world::with_mut(|w| {
+            // Remove custom desc.
+            w.descs_mut().remove(self);
+            // Go full health.
+            w.healths_mut().get(self).expect("no health").wounds = 0;
+        });
+
+        // Gib fx from the host body.
+        msg::push(::Msg::Gib(self.location().unwrap()));
     }
 }
