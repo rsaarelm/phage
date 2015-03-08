@@ -71,7 +71,7 @@ impl GameState {
             let idx = if hp >= (i + 1) * 2 { icon::HEART }
                 else if hp == i * 2 + 1 { icon::HALF_HEART }
                 else { icon::NO_HEART };
-            ctx.draw_image(tilecache::get(idx), pos, 0.0, &color::FIREBRICK, &color::BLACK);
+            ctx.draw_image(tilecache::get(idx), pos, 0.0, &color::FIREBRICK, &color::BLUE);
         }
     }
 
