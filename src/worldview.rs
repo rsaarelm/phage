@@ -204,25 +204,6 @@ impl<'a> CellDrawable<'a> {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
                 wallform(self, ctx, &k, offset, WALL, &LIGHTSLATEGRAY, true);
             },
-            TerrainType::RockWall => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                wallform(self, ctx, &k, offset, ROCKWALL, &LIGHTSLATEGRAY, true);
-            },
-            TerrainType::Fence => {
-                // The floor type beneath the fence tile is visible, make it grass
-                // if there's grass behind the fence. Otherwise make it regular
-                // floor.
-                if k.n == TerrainType::Grass || k.ne == TerrainType::Grass || k.nw == TerrainType::Grass {
-                    self.draw_floor(ctx, GRASS, offset, FLOOR_Z, &DARKGREEN);
-                } else {
-                    self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                }
-                wallform(self, ctx, &k, offset, FENCE, &DARKGOLDENROD, false);
-            },
-            TerrainType::Bars => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                wallform(self, ctx, &k, offset, BARS, &GAINSBORO, false);
-            },
             TerrainType::Stalagmite => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
                 self.draw_tile(ctx, STALAGMITE, offset, BLOCK_Z, &DARKGOLDENROD);
@@ -234,7 +215,7 @@ impl<'a> CellDrawable<'a> {
             TerrainType::Door => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
                 wallform(self, ctx, &k, offset, DOOR, &LIGHTSLATEGRAY, true);
-                wallform(self, ctx, &k, offset, DOOR + 4, &SADDLEBROWN, false);
+                wallform(self, ctx, &k, offset, DOOR + 4, &DARKTURQUOISE, false);
             },
             TerrainType::OpenDoor => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
@@ -316,13 +297,16 @@ impl<'a> CellDrawable<'a> {
             } else if !block || !k.s.is_wall() {
                 // NB: This branch has some actual local kernel logic not
                 // handled by wall_flags_lrb.
+                /*
                 let idx = if k.n.is_wall() && (!k.nw.is_wall() || !k.ne.is_wall()) {
                     // TODO: Walltile-specific XY-walls
                     XYWALL
                 } else {
                     idx + 3
                 };
-                c.draw_tile(ctx, idx, offset, BLOCK_Z, color);
+                c.draw_tile(ctx, idx + 3, offset, BLOCK_Z, color);
+                */
+                c.draw_tile(ctx, idx + 3, offset, BLOCK_Z, color);
             }
         }
 

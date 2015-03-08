@@ -25,7 +25,7 @@ macro_rules! terrain_data {
 }
 
 terrain_data! {
-    count: 29;
+    count: 26;
 
     Void, "void";
     Floor, "floor";
@@ -35,7 +35,6 @@ terrain_data! {
     Magma, "magma";
     Downstairs, "stairs down";
     Wall, "wall";
-    RockWall, "rock wall";
     Rock, "rock";
     Tree, "tree";
     Grass, "grass";
@@ -47,8 +46,6 @@ terrain_data! {
     OpenDoor, "open door";
     Window, "window";
     Table, "table";
-    Fence, "fence";
-    Bars, "bars";
     Fountain, "fountain";
     Altar, "altar";
     Barrel, "barrel";
@@ -70,21 +67,21 @@ impl TerrainType {
 
     pub fn is_wall(self) -> bool {
         match self {
-            Wall | RockWall | Rock | Door | OpenDoor | Window | Bars | Fence => true,
+            Wall | Rock | Door | OpenDoor | Window => true,
             _ => false
         }
     }
 
     pub fn blocks_sight(self) -> bool {
         match self {
-            Wall | RockWall | Rock | Door | Tree | DeadTree | TallGrass => true,
+            Wall | Rock | Door | Tree | DeadTree | TallGrass => true,
             _ => false
         }
     }
 
     pub fn blocks_shot(self) -> bool {
         match self {
-            Wall | RockWall | Rock | Tree | Stalagmite | Door | Menhir | DeadTree => true,
+            Wall | Rock | Tree | Stalagmite | Door | Menhir | DeadTree => true,
             _ => false
         }
     }

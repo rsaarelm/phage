@@ -55,12 +55,9 @@ pub mod tile {
     pub static WATER : usize = 13;
     pub static MAGMA : usize = 14;
     pub static DOWNSTAIRS : usize = 15;
-    pub static ROCKWALL : usize = 16;
-    pub static WALL : usize = 20;
-    pub static FENCE : usize = 24;
-    pub static BARS : usize = 28;
-    pub static WINDOW : usize = 32;
-    pub static DOOR : usize = 36;
+    pub static WALL : usize = 16;
+    pub static WINDOW : usize = 20;
+    pub static DOOR : usize = 24;
     pub static TREE_TRUNK : usize = 48;
     pub static TREE_FOLIAGE : usize = 49;
     pub static TABLE : usize = 50;
