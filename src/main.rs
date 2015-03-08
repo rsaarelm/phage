@@ -1,4 +1,4 @@
-#![crate_name="magog"]
+#![crate_name="phage"]
 #![feature(old_io, old_path, unicode)]
 
 extern crate image;

@@ -8,7 +8,7 @@ license = "GPL3"
 build = "build.rs"
 
 [[bin]]
-name = "magog"
+name = "phage"
 
 [dependencies.image]
 git = "https://github.com/PistonDevelopers/image"
