@@ -2,7 +2,7 @@
 (B) 2015-03-07 Alien mobs
 (B) 2015-03-07 Autosave and resume, save when exiting game
 (B) 2015-03-07 Colony base terrain, mapgen clumps base terrain
-(B) 2015-03-07 Corpse objects from killed enemies
+(B) 2015-03-07 Corpse objects from killed enemies (remove brain component to de-mob entity) ((Oh, but we can't remove inherited components... Better figure out something for that))
 (B) 2015-03-07 Human colonist mobs
 (B) 2015-03-07 Kill counter
 (B) 2015-03-07 Mob infighting AI, colonists flee from aliens, marines fight them
@@ -12,6 +12,14 @@
 (B) 2015-03-07 Remove item system
 (B) 2015-03-07 Spawn human mobs only around human base terrain
 (B) 2015-03-07 Title screen has [New game] and if there's a valid save file, [Continue game]
+(B) 2015-03-09 Large mobs can smash doors
+(B) 2015-03-09 Phage possesses corpses, not live mobs
+(B) 2015-03-09 Remove debug keys
+(C) 2015-03-09 Clip and reload mechanic when inhabiting ranged attacker
+(C) 2015-03-09 Detection state for human-form phage, can infiltrate bases until a human sees you do something suspicious. Alert goes down after a while.
+(C) 2015-03-09 Human enemies get radioed in at your location on alert
+(C) 2015-03-09 Lifeform rada minimap
+(C) 2015-03-09 Mob infighting, humans fight alien life
 x 2015-03-07 2015-03-07 Cool title screen
 x 2015-03-08 2015-03-07 New player avatar sprite
 x 2015-03-08 2015-03-07 Possession mechanic, change player avatar properties (reparenting?)
