@@ -716,7 +716,7 @@ impl Entity {
 
         world::with_mut(|w| {
             // Remove the local description for the previous form.
-            w.descs_mut().remove(self);
+            w.descs_mut().clear(self);
             // Get the prototype description from new parent, with
             // copy-on-write. Modify it for phage look.
             {
@@ -749,7 +749,7 @@ impl Entity {
         self.reparent(action::find_prototype("player").expect("No player prototype"));
         world::with_mut(|w| {
             // Remove custom desc.
-            w.descs_mut().remove(self);
+            w.descs_mut().clear(self);
             // Go full health.
             w.healths_mut().get(self).expect("no health").wounds = 0;
         });
