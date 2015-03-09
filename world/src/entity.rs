@@ -155,10 +155,6 @@ impl Entity {
 
         let mut damage = full + if rng::p(partial) { 1 } else { 0 };
 
-        if self.is_exposed_phage() {
-            // Phage is squishy.
-            damage *= 2;
-        }
         self.apply_damage(damage)
     }
 
@@ -231,6 +227,10 @@ impl Entity {
 
     /// Return whether this entity is an awake mob.
     pub fn is_active(self) -> bool {
+        if self.has_intrinsic(Intrinsic::Dead) {
+            return false;
+        }
+
         match self.brain_state() {
             Some(BrainState::Asleep) => false,
             Some(_) => true,
@@ -275,12 +275,8 @@ impl Entity {
     pub fn melee(self, dir: Dir6) {
         let loc = self.location().expect("no location") + dir.to_v2();
         if let Some(e) = loc.mob_at() {
-            if self.is_exposed_phage() {
-                self.possess(e);
-            } else {
-                let us = self.stats();
-                e.damage(us.power + us.attack);
-            }
+            let us = self.stats();
+            e.damage(us.power + us.attack);
         }
     }
 
@@ -673,6 +669,10 @@ impl Entity {
             let ability = world::with(|w| w.items().get(self).expect("no item").ability.clone());
             ability.apply(Some(self), Place::In(collider, None));
         }
+
+        if collider.is_player() && self.is_corpse() {
+            collider.possess(self);
+        }
     }
 
 // FOV and map memory //////////////////////////////////////////////////
@@ -747,9 +747,18 @@ impl Entity {
                     alignment: Alignment::Phage,
                 });
 
-            // Go to full health.
+            // Tissue regeneration.
             w.healths_mut().get(self).expect("no health").wounds = 0;
+
+            // Adrenal overload.
+            w.stats_mut().clear(self);
+            w.stats_mut().get(self).expect("no stats").attack += 2;
         });
+
+        if !self.is_exposed_phage() {
+            // Discard previous host.
+            msg::push(::Msg::Gib(self.location().unwrap()));
+        }
 
         let loc = target.location().unwrap();
         target.delete();

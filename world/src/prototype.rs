@@ -51,7 +51,7 @@ pub fn init() {
     Prototype::new(Some(base_mob))
         (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
         (Desc::new("player", 40, CYAN))
-        (Stats::new(2, &[]))
+        (Stats::new(2, &[]).attack(2))
         (MapMemory::new())
         ;
 
@@ -64,19 +64,19 @@ pub fn init() {
 
     Prototype::new(Some(base_mob))
         (Desc::new("colonist", 34, DARKORANGE))
-        (Stats::new(1, &[Hands]))
+        (Stats::new(4, &[Hands]))
         (Spawn::new(Category::Mob).biome(Dungeon))
         ;
 
     Prototype::new(Some(base_mob))
         (Desc::new("marine", 36, DARKOLIVEGREEN))
-        (Stats::new(3, &[Hands]))
+        (Stats::new(6, &[Hands]))
         (Spawn::new(Category::Mob).biome(Dungeon))
         ;
 
     Prototype::new(Some(base_mob))
         (Desc::new("rumbler", 38, OLIVE))
-        (Stats::new(6, &[]))
+        (Stats::new(8, &[]))
         (Spawn::new(Category::Mob))
         ;
 }
