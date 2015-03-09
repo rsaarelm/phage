@@ -6,12 +6,14 @@ use ::{Transition, State};
 
 pub struct TitleState {
     tick: usize,
+    screenshot_requested: bool,
 }
 
 impl TitleState {
     pub fn new() -> TitleState {
         TitleState {
             tick: 0,
+            screenshot_requested: false,
         }
     }
 
@@ -41,6 +43,11 @@ impl State for TitleState {
         self.tick += 1;
         match event {
             Event::Render(ctx) => {
+                if self.screenshot_requested {
+                    ::screenshot(ctx);
+                    self.screenshot_requested = false;
+                }
+
                 ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, &self.fade_in(&color::MEDIUMAQUAMARINE), &color::BLACK);
                 Fonter::new(ctx)
                     .color(&self.when_faded(color::DARKCYAN))
@@ -52,6 +59,7 @@ impl State for TitleState {
             Event::KeyPressed(Key::Escape) => {
                 return Some(Transition::Exit);
             }
+            Event::KeyPressed(Key::F12) => { self.screenshot_requested = true; }
             Event::KeyPressed(_) => {
                 return Some(Transition::Game(None));
             }
