@@ -50,92 +50,33 @@ pub fn init() {
     // Player
     Prototype::new(Some(base_mob))
         (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
-        (Desc::new("player", 51, CYAN))
+        (Desc::new("player", 40, CYAN))
         (Stats::new(2, &[]))
         (MapMemory::new())
         ;
 
     // Enemies
     Prototype::new(Some(base_mob))
-        (Desc::new("dreg", 72, OLIVE))
-        (Stats::new(1, &[Hands]))
+        (Desc::new("hopper", 32, YELLOW))
+        (Stats::new(2, &[]))
         (Spawn::new(Category::Mob))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("snake", 71, GREEN))
-        (Stats::new(1, &[]))
-        (Spawn::new(Category::Mob).biome(Overland))
+        (Desc::new("colonist", 34, DARKORANGE))
+        (Stats::new(1, &[Hands]))
+        (Spawn::new(Category::Mob).biome(Dungeon))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("ooze", 77, LIGHTSEAGREEN))
-        (Stats::new(3, &[]))
-        (Spawn::new(Category::Mob).biome(Dungeon).depth(3))
+        (Desc::new("marine", 36, DARKOLIVEGREEN))
+        (Stats::new(3, &[Hands]))
+        (Spawn::new(Category::Mob).biome(Dungeon))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("ogre", 73, DARKSLATEGRAY))
-        (Stats::new(6, &[Hands]))
-        (Spawn::new(Category::Mob).depth(5))
-        ;
-
-    Prototype::new(Some(base_mob))
-        (Desc::new("wraith", 74, HOTPINK))
-        (Stats::new(8, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Dungeon).depth(6))
-        ;
-
-    Prototype::new(Some(base_mob))
-        (Desc::new("octopus", 63, DARKTURQUOISE))
-        (Stats::new(10, &[]))
-        (Spawn::new(Category::Mob).depth(7))
-        ;
-
-    Prototype::new(Some(base_mob))
-        (Desc::new("efreet", 78, ORANGE))
-        (Stats::new(12, &[]))
-        (Spawn::new(Category::Mob).depth(8))
-        ;
-
-    Prototype::new(Some(base_mob))
-        (Desc::new("serpent", 94, CORAL))
-        (Stats::new(15, &[]))
-        (Spawn::new(Category::Mob).biome(Dungeon).depth(9))
-        ;
-
-    // Items
-    Prototype::new(None)
-        (Desc::new("heart", 89, RED))
-        (Spawn::new(Category::Consumable).commonness(50))
-        (Item { item_type: ItemType::Instant, ability: Ability::HealInstant(2) })
-        ;
-
-    Prototype::new(None)
-        (Desc::new("sword", 84, GAINSBORO))
-        (Spawn::new(Category::Equipment).commonness(100))
-        (Stats::new(0, &[]).attack(5).mana(-3))
-        (Item { item_type: ItemType::MeleeWeapon, ability: Ability::Multi(vec![]) })
-        ;
-
-    Prototype::new(None)
-        (Desc::new("throwing knives", 90, GAINSBORO))
-        (Spawn::new(Category::Equipment).commonness(500))
-        (Stats::new(0, &[]).ranged_range(5).ranged_power(5))
-        (Item { item_type: ItemType::RangedWeapon, ability: Ability::Multi(vec![]) })
-        ;
-
-    Prototype::new(None)
-        (Desc::new("helmet", 85, GAINSBORO))
-        (Spawn::new(Category::Equipment).commonness(100))
-        (Stats::new(0, &[]).protection(2).mana(-1))
-        (Item { item_type: ItemType::Helmet, ability: Ability::Multi(vec![]) })
-        ;
-
-    Prototype::new(None)
-        (Desc::new("armor", 91, GAINSBORO))
-        (Spawn::new(Category::Equipment).commonness(100))
-        (Stats::new(0, &[]).protection(5).mana(-3))
-        (Item { item_type: ItemType::Armor, ability: Ability::Multi(vec![]) })
+        (Desc::new("rumbler", 38, OLIVE))
+        (Stats::new(6, &[]))
+        (Spawn::new(Category::Mob))
         ;
 }

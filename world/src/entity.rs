@@ -204,14 +204,21 @@ impl Entity {
 
         msgln!("{} dies.", self.name());
         msg::push(::Msg::Gib(loc));
-        if rng::one_chance_in(6) {
-            // Drop a heart.
-            action::spawn_named("heart", loc);
-        }
-        self.delete();
+
+        // Turn into corpse.
+        world::with_mut(|w| {
+            w.brains_mut().hide(self);
+            // Corpses are always icon + 1.
+            w.descs_mut().get(self).expect("no desc").icon += 1;
+        });
+
+        self.set_intrinsic(Intrinsic::Dead);
+        //self.delete();
     }
 
 // Mob methods /////////////////////////////////////////////////////////
+
+    pub fn is_corpse(self) -> bool { self.has_intrinsic(Intrinsic::Dead) }
 
     pub fn is_mob(self) -> bool {
         world::with(|w| w.brains().get(self).is_some()) && self.location().is_some()
@@ -713,7 +720,7 @@ impl Entity {
     /// Self is the exposed phage form, not possessing a host.
     pub fn is_exposed_phage(self) -> bool {
         // Hacky, just check the icon index.
-        world::with(|w| w.descs().get(self).map_or(false, |d| d.icon == 51))
+        world::with(|w| w.descs().get(self).map_or(false, |d| d.icon == 40))
     }
 
     /// Make the phage possess the target host.

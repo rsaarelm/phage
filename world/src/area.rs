@@ -59,7 +59,6 @@ impl Encodable for Area {
 impl Area {
     pub fn new(rng_seed: u32, spec: AreaSpec) -> Area {
         let num_mobs = 32;
-        let num_items = 12;
 
         let mut terrain = HashMap::new();
         let mut rng: StdRng = SeedableRng::from_seed(&[rng_seed as usize + spec.depth as usize][..]);
@@ -88,12 +87,6 @@ impl Area {
         spawns.extend(
             iter::repeat(Spawn::new(spec.depth, vec![Category::Mob], vec![spec.biome]))
             .take(num_mobs)
-            .filter_map(|spawn|
-            if let Some(loc) = opens.pop() { Some((spawn, loc)) } else { None }));
-
-        spawns.extend(
-            iter::repeat(Spawn::new(spec.depth, vec![Category::Item], vec![spec.biome]))
-            .take(num_items)
             .filter_map(|spawn|
             if let Some(loc) = opens.pop() { Some((spawn, loc)) } else { None }));
 

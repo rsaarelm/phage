@@ -70,4 +70,8 @@ pub enum Intrinsic {
     Fast        = 0b10,
     /// Can manipulate objects and doors.
     Hands       = 0b100,
+    /// Is dead
+    Dead        = 0b1000,
+    /// Can smash doors
+    DoorSmasher = 0b10000,
 }
