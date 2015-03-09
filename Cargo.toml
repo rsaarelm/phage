@@ -10,6 +10,9 @@ build = "build.rs"
 [[bin]]
 name = "phage"
 
+[profile.release]
+lto = true
+
 [dependencies.image]
 git = "https://github.com/PistonDevelopers/image"
 
