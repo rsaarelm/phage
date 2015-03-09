@@ -14,7 +14,6 @@ name = "phage"
 lto = true
 
 [dependencies.image]
-git = "https://github.com/PistonDevelopers/image"
 
 [dependencies.uuid]
 
