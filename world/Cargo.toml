@@ -18,4 +18,4 @@ name = "world"
 [dependencies.rand_macros]
 
 [dependencies.calx_util]
-path = "../../calx"
+git = "https://github.com/rsaarelm/calx"

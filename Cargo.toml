@@ -23,10 +23,10 @@ git = "https://github.com/PistonDevelopers/image"
 [dependencies.rustc-serialize]
 
 [dependencies.calx_util]
-path = "../calx"
+git = "https://github.com/rsaarelm/calx"
 
 [dependencies.calx_backend]
-path = "../calx"
+git = "https://github.com/rsaarelm/calx"
 
 [dependencies.world]
 path = "world"

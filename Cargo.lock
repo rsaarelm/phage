@@ -2,10 +2,10 @@
 name = "phage"
 version = "0.1.0"
 dependencies = [
- "calx_backend 0.0.1",
- "calx_util 0.0.1",
+ "calx_backend 0.0.1 (git+https://github.com/rsaarelm/calx)",
+ "calx_util 0.0.1 (git+https://github.com/rsaarelm/calx)",
  "image 0.2.0-alpha.11 (git+https://github.com/PistonDevelopers/image)",
- "rustc-serialize 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "uuid 0.1.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "world 0.0.1",
@@ -24,8 +24,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "calx_backend"
 version = "0.0.1"
+source = "git+https://github.com/rsaarelm/calx#8bfbe70613cb6128fa47fe3831dfa81503fd1afe"
 dependencies = [
- "calx_util 0.0.1",
+ "calx_util 0.0.1 (git+https://github.com/rsaarelm/calx)",
  "glium 0.0.3 (git+https://github.com/tomaka/glium)",
  "glium_macros 0.0.1 (git+https://github.com/tomaka/glium)",
  "glutin 0.0.7 (git+https://github.com/tomaka/glutin)",
@@ -36,6 +37,7 @@ dependencies = [
 [[package]]
 name = "calx_util"
 version = "0.0.1"
+source = "git+https://github.com/rsaarelm/calx#8bfbe70613cb6128fa47fe3831dfa81503fd1afe"
 dependencies = [
  "image 0.2.0-alpha.11 (git+https://github.com/PistonDevelopers/image)",
  "rand 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -297,7 +299,7 @@ dependencies = [
 name = "world"
 version = "0.0.1"
 dependencies = [
- "calx_util 0.0.1",
+ "calx_util 0.0.1 (git+https://github.com/rsaarelm/calx)",
  "collect 0.0.25 (registry+https://github.com/rust-lang/crates.io-index)",
  "num 0.1.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
