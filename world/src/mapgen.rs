@@ -17,22 +17,15 @@ pub fn gen_herringbone<R: Rng, F>(
             .map(|&c| c).collect::<Vec<&Chunk>>();
         let inner = chunks.iter().filter(|c| !c.exit)
             .map(|&c| c).collect::<Vec<&Chunk>>();
-        let exit = chunks.iter().filter(|c| c.exit)
-            .map(|&c| c).collect::<Vec<&Chunk>>();
 
-        assert!(!exit.is_empty(), "No exit chunks found");
-        assert!(inner.len() + exit.len() == chunks.len());
-
-        let exit_x = rng.gen_range(-2, 2);
-        let exit_y = rng.gen_range(-2, 2);
+        assert!(inner.len() == chunks.len());
 
         for cy in -2i32..2 {
             for cx in -2i32..2 {
                 let on_edge = cy == -2 || cx == -2 || cy == 1 || cx == 1;
 
                 let chunk = rng.choose(
-                    if (cx, cy) == (exit_x, exit_y) { &exit[..] }
-                    else if on_edge { &edge[..] }
+                    if on_edge { &edge[..] }
                     else { &inner[..] }).unwrap();
 
                 for (&(x, y), &terrain) in chunk.cells.iter() {

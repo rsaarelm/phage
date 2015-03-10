@@ -73,6 +73,13 @@ pub mod tile {
     pub static MENHIR : usize = 70;
     pub static TALLGRASS : usize = 80;
     pub static XYWALL : usize = 82;
+    pub static CRATER_N : usize = 96;
+    pub static CRATER_NE : usize = 97;
+    pub static CRATER_SE : usize = 98;
+    pub static CRATER_S : usize = 99;
+    pub static CRATER_SW : usize = 100;
+    pub static CRATER_NW : usize = 101;
+    pub static CRATER : usize = 102;
 }
 
 pub mod icon {

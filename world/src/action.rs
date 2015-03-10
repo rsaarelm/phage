@@ -135,10 +135,7 @@ fn ai_main() {
 pub fn current_depth() -> i32 { world::with(|w| w.area.seed.spec.depth) }
 
 pub fn start_level(depth: i32) {
-    let biome = match depth {
-        1 => ::Biome::Overland,
-        _ => ::Biome::Dungeon,
-    };
+    let biome = ::Biome::Overland;
 
     clear_nonplayers();
 

@@ -1,4 +1,3 @@
-use std::num::{Float};
 use std::collections::HashMap;
 use time;
 use util::{V2, Rgb, timing};
@@ -173,8 +172,8 @@ impl<'a> CellDrawable<'a> {
             TerrainType::Tree => {
                 // A two-toner, with floor, using two z-layers
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, TREE_TRUNK, offset, BLOCK_Z, &SADDLEBROWN);
-                self.draw_tile(ctx, TREE_FOLIAGE, offset, BLOCK_Z, &GREEN);
+                self.draw_tile(ctx, TREE_TRUNK, offset, BLOCK_Z, &DARKORANGE);
+                self.draw_tile(ctx, TREE_FOLIAGE, offset, BLOCK_Z, &PURPLE);
             },
             TerrainType::Floor => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
@@ -183,22 +182,13 @@ impl<'a> CellDrawable<'a> {
                 self.draw_tile(ctx, CHASM, offset, FLOOR_Z, &DARKSLATEGRAY);
             },
             TerrainType::Grass => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &DARKGREEN);
+                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &DARKSLATEBLUE);
             },
             TerrainType::Grass2 => {
-                self.draw_floor(ctx, GRASS, offset, FLOOR_Z, &DARKGREEN);
-            },
-            TerrainType::Downstairs => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, DOWNSTAIRS, offset, BLOCK_Z, &SLATEGRAY);
-            },
-            TerrainType::Portal => {
-                let glow = (127.0 *(1.0 + (time::precise_time_s()).sin())) as u8;
-                let portal_col = Rgb::new(glow, glow, 255);
-                self.draw_tile(ctx, PORTAL, offset, BLOCK_Z, &portal_col);
+                self.draw_floor(ctx, GRASS, offset, FLOOR_Z, &DARKSLATEBLUE);
             },
             TerrainType::Rock => {
-                blockform(self, ctx, &k, offset, BLOCK, &DARKGOLDENROD);
+                blockform(self, ctx, &k, offset, BLOCK, &SILVER);
             }
             TerrainType::Wall => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
@@ -223,38 +213,43 @@ impl<'a> CellDrawable<'a> {
             },
             TerrainType::Table => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, TABLE, offset, BLOCK_Z, &DARKGOLDENROD);
-            },
-            TerrainType::Fountain => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, FOUNTAIN, offset, BLOCK_Z, &GAINSBORO);
-            },
-            TerrainType::Altar => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, ALTAR, offset, BLOCK_Z, &GAINSBORO);
+                self.draw_tile(ctx, TABLE, offset, BLOCK_Z, &SILVER);
             },
             TerrainType::Barrel => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, BARREL, offset, BLOCK_Z, &DARKGOLDENROD);
-            },
-            TerrainType::Grave => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, GRAVE, offset, BLOCK_Z, &SLATEGRAY);
+                self.draw_tile(ctx, BARREL, offset, BLOCK_Z, &OLIVEDRAB);
             },
             TerrainType::Stone => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
                 self.draw_tile(ctx, STONE, offset, BLOCK_Z, &SLATEGRAY);
-            },
-            TerrainType::Menhir => {
-                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
-                self.draw_tile(ctx, MENHIR, offset, BLOCK_Z, &SLATEGRAY);
             },
             TerrainType::DeadTree => {
                 self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
                 self.draw_tile(ctx, TREE_TRUNK, offset, BLOCK_Z, &SADDLEBROWN);
             },
             TerrainType::TallGrass => {
-                self.draw_tile(ctx, TALLGRASS, offset, BLOCK_Z, &GOLD);
+                self.draw_tile(ctx, TALLGRASS, offset, BLOCK_Z, &MEDIUMORCHID);
+            },
+            TerrainType::CraterN => {
+                self.draw_floor(ctx, CRATER_N, offset, FLOOR_Z, &SLATEGRAY);
+            },
+            TerrainType::CraterNE => {
+                self.draw_floor(ctx, CRATER_NE, offset, FLOOR_Z, &SLATEGRAY);
+            },
+            TerrainType::CraterSE => {
+                self.draw_floor(ctx, CRATER_SE, offset, FLOOR_Z, &SLATEGRAY);
+            },
+            TerrainType::CraterS => {
+                self.draw_floor(ctx, CRATER_S, offset, FLOOR_Z, &SLATEGRAY);
+            },
+            TerrainType::CraterSW => {
+                self.draw_floor(ctx, CRATER_SW, offset, FLOOR_Z, &SLATEGRAY);
+            },
+            TerrainType::CraterNW => {
+                self.draw_floor(ctx, CRATER_NW, offset, FLOOR_Z, &SLATEGRAY);
+            },
+            TerrainType::Crater => {
+                self.draw_floor(ctx, CRATER, offset, FLOOR_Z, &SLATEGRAY);
             },
         }
 

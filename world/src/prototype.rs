@@ -5,11 +5,8 @@ use entity::{Entity};
 use components::{Spawn, Category, IsPrototype};
 use components::{Desc, MapMemory, Health};
 use components::{Brain, BrainState, Alignment};
-use components::{Item};
-use item::{ItemType};
 use stats::{Stats};
 use stats::Intrinsic::*;
-use ability::Ability;
 use Biome::*;
 use world;
 
@@ -65,13 +62,13 @@ pub fn init() {
     Prototype::new(Some(base_mob))
         (Desc::new("colonist", 34, DARKORANGE))
         (Stats::new(4, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Dungeon))
+        (Spawn::new(Category::Mob).biome(Base))
         ;
 
     Prototype::new(Some(base_mob))
         (Desc::new("marine", 36, DARKOLIVEGREEN))
         (Stats::new(6, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Dungeon))
+        (Spawn::new(Category::Mob).biome(Base))
         ;
 
     Prototype::new(Some(base_mob))

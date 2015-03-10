@@ -134,8 +134,8 @@ impl Location {
     pub fn name(&self) -> String {
         match action::current_depth() {
             0 => "Limbo".to_string(),
-            1 => "Overworld".to_string(),
-            n => format!("Dungeon {}", n - 1)
+            1 => "Outside".to_string(),
+            n => format!("Basement {}", n - 1)
         }
     }
 

@@ -153,7 +153,7 @@ impl Entity {
         // The fractional points are one probabilistic hit.
         let partial = (power % 5) as f64 / 5.0;
 
-        let mut damage = full + if rng::p(partial) { 1 } else { 0 };
+        let damage = full + if rng::p(partial) { 1 } else { 0 };
 
         self.apply_damage(damage)
     }

@@ -25,7 +25,7 @@ macro_rules! terrain_data {
 }
 
 terrain_data! {
-    count: 26;
+    count: 27;
 
     Void, "void";
     Floor, "floor";
@@ -33,7 +33,6 @@ terrain_data! {
     Water, "water";
     Shallows, "shallows";
     Magma, "magma";
-    Downstairs, "stairs down";
     Wall, "wall";
     Rock, "rock";
     Tree, "tree";
@@ -41,19 +40,21 @@ terrain_data! {
     // Render variant, do not use directly.
     Grass2, "grass";
     Stalagmite, "stalagmite";
-    Portal, "portal";
     Door, "door";
     OpenDoor, "open door";
     Window, "window";
     Table, "table";
-    Fountain, "fountain";
-    Altar, "altar";
     Barrel, "barrel";
-    Grave, "grave";
     Stone, "stone";
-    Menhir, "menhir";
     DeadTree, "dead tree";
     TallGrass, "tall grass";
+    CraterN, "crater";
+    CraterNE, "crater";
+    CraterSE, "crater";
+    CraterS, "crater";
+    CraterSW, "crater";
+    CraterNW, "crater";
+    Crater, "crater";
 }
 
 
@@ -81,25 +82,22 @@ impl TerrainType {
 
     pub fn blocks_shot(self) -> bool {
         match self {
-            Wall | Rock | Tree | Stalagmite | Door | Menhir | DeadTree => true,
+            Wall | Rock | Tree | Stalagmite | Door | DeadTree => true,
             _ => false
         }
     }
 
     pub fn blocks_walk(self) -> bool {
         match self {
-            Floor | Shallows | Grass | Grass2 | Downstairs | Portal
+            Floor | Shallows | Grass | Grass2 | Crater
+                | CraterN | CraterNE | CraterSE
+                | CraterS | CraterSW | CraterNW
                 | Door | OpenDoor | TallGrass => false,
             _ => true
         }
     }
 
-    pub fn is_exit(self) -> bool {
-        match self {
-            Downstairs => true,
-            _ => false
-        }
-    }
+    pub fn is_exit(self) -> bool { false }
 
     pub fn valid_spawn_spot(self) -> bool { !self.blocks_walk() && !self.is_exit() }
 
