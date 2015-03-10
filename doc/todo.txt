@@ -2,6 +2,7 @@
 (A) 2015-03-07 Open-world alien planet terrain
 (A) 2015-03-10 Door smashing logic
 (A) 2015-03-10 Phage can smash doors with prob 1/4, doors aren't an absolute obstacle just a slowdown
+(A) 2015-03-10 Oops, multitile craters don't survive geomorph rotation. Either figure out a fix (norotate flag?) or drop the craters (which don't really make geological sense anyway)
 (B) 2015-03-07 Autosave and resume, save when exiting game
 (B) 2015-03-07 Colony base terrain, mapgen clumps base terrain
 (B) 2015-03-07 Kill counter
