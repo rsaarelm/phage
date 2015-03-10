@@ -318,16 +318,6 @@ impl GameState {
         false
     }
 
-    /// Context-specific interaction with the current cell.
-    fn interact(&mut self) {
-        let player = action::player().unwrap();
-        let loc = player.location().unwrap();
-        if let Some(item) = loc.top_item() {
-            player.pick_up(item);
-            return;
-        }
-    }
-
     /// Process a player control keypress.
     pub fn gameplay_process_key(&mut self, key: Key) -> bool {
         if action::control_state() != AwaitingInput {
@@ -346,15 +336,11 @@ impl GameState {
             Key::S | Key::Pad2 | Key::Down => { self.smart_move(South); }
             Key::D | Key::Pad3 => { self.smart_move(SouthEast); }
 
-            Key::Enter => { self.interact(); }
             Key::Space => { action::input(Pass); }
             Key::X => { self.exploring = true; }
 
-            // Open inventory
-            Key::Tab => { self.ui_state = UiState::Inventory; }
-
-            Key::F5 => { self.save_game(); }
-            Key::F9 => { self.load_game(); }
+            Key::F5 if !cfg!(ndebug) => { self.save_game(); }
+            Key::F9 if !cfg!(ndebug) => { self.load_game(); }
             Key::F12 => { self.screenshot_requested = true; }
             _ => { return false; }
         }
@@ -377,14 +363,11 @@ impl GameState {
             Event::Char(ch) => {
                 // TODO: Chars and keypresses in same lookup (use variants?)
                 match ch {
-                    // Debug
-                    '>' => { action::next_level(); }
-
                     // Open console
                     // (Make this be a typed-key instead of a pressed-key
                     // event so that the event will have been consumed and
                     // console won't start with an inputted '`'.)
-                    '`' => { self.ui_state = UiState::Console; }
+                    '`' if !cfg!(ndebug) => { self.ui_state = UiState::Console; }
 
                     _ => ()
                 }

@@ -655,9 +655,6 @@ impl Entity {
         }
 
         if self.is_player() {
-            if loc.terrain().is_exit() {
-                action::next_level();
-            }
             flags::set_camera(self.location().expect("No player location"));
         }
     }

@@ -189,14 +189,6 @@ fn clear_nonplayers() {
     }
 }
 
-/// Move the player to the next level.
-pub fn next_level() {
-    // This is assuming a really simple, original Rogue style descent-only, no
-    // persistent maps style world.
-    start_level(current_depth() + 1);
-    caption!("Depth {}", current_depth() - 1);
-}
-
 // Effects /////////////////////////////////////////////////////////////
 
 /// Create a projectile arc in dir from origin.
