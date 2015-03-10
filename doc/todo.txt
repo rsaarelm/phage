@@ -6,7 +6,6 @@
 (B) 2015-03-07 Colony base terrain, mapgen clumps base terrain
 (B) 2015-03-07 Kill counter
 (B) 2015-03-07 Mob infighting AI, colonists flee from aliens, marines fight them
-(B) 2015-03-07 New terrain tiles
 (B) 2015-03-07 Ranged combat AI for marines
 (B) 2015-03-07 Spawn human mobs only around human base terrain
 (B) 2015-03-07 Title screen has [New game] and if there's a valid save file, [Continue game]
@@ -22,6 +21,7 @@
 (C) 2015-03-09 Lifeform radar minimap
 (C) 2015-03-09 Mob infighting, humans fight alien life
 (C) 2015-03-10 Health bar display for enemies
+(C) 2015-03-10 Named bases in location name, when in the wilderness, "Outside", when inside a base, show "Delta Base" etc.
 (C) 2015-03-10 Quit confirmation dialog when pressing esc in game
 x 2015-03-07 2015-03-07 Cool title screen
 x 2015-03-08 2015-03-07 New player avatar sprite
@@ -31,5 +31,6 @@ x 2015-03-09 2015-03-07 Alien mobs
 x 2015-03-09 2015-03-07 Corpse objects from killed enemies (remove brain component to de-mob entity) ((Oh, but we can't remove inherited components... Better figure out something for that))
 x 2015-03-09 2015-03-07 Human colonist mobs
 x 2015-03-09 2015-03-09 Phage possesses corpses, not live mobs
+x 2015-03-10 2015-03-07 New terrain tiles
 x 2015-03-10 2015-03-07 Remove item system (mostly the inventory key at this point)
 x 2015-03-10 2015-03-09 Remove debug keys
