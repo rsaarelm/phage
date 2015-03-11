@@ -667,7 +667,7 @@ impl Entity {
             ability.apply(Some(self), Place::In(collider, None));
         }
 
-        if collider.is_player() && self.is_corpse() {
+        if collider.is_player() && self.is_corpse() && !self.has_intrinsic(Intrinsic::Robotic) {
             collider.possess(self);
         }
     }

@@ -67,7 +67,7 @@ pub struct Spawn {
 impl Spawn {
     pub fn new(category: Category) -> Spawn {
         Spawn {
-            biome: Biome::Anywhere,
+            biome: Biome::Overland,
             commonness: 1000,
             min_depth: 1,
             category: category,
@@ -159,3 +159,15 @@ pub struct Item {
 /// stats and the stat bonuses of its equipment and whatever spell effects may
 /// apply.
 pub type StatsCache = Option<Stats>;
+
+
+/// Belong to a zone.
+#[derive(Clone, Debug, RustcEncodable, RustcDecodable)]
+pub struct Colonist {
+    pub home_base: String,
+}
+
+impl Colonist {
+    // Bases will be assigned when the unit is deployed.
+    pub fn new() -> Colonist { Colonist { home_base: String::new() } }
+}

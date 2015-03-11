@@ -74,4 +74,6 @@ pub enum Intrinsic {
     Dead        = 0b1000,
     /// Can smash doors
     DoorSmasher = 0b10000,
+    /// Inorganic, phage can't use corpse
+    Robotic     = 0b100000,
 }

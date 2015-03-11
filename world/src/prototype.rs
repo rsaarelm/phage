@@ -4,7 +4,7 @@ use ecs::{Component, ComponentAccess};
 use entity::{Entity};
 use components::{Spawn, Category, IsPrototype};
 use components::{Desc, MapMemory, Health};
-use components::{Brain, BrainState, Alignment};
+use components::{Brain, BrainState, Alignment, Colonist};
 use stats::{Stats};
 use stats::Intrinsic::*;
 use Biome::*;
@@ -53,6 +53,8 @@ pub fn init() {
         ;
 
     // Enemies
+
+    // Indigenous
     Prototype::new(Some(base_mob))
         (Desc::new("hopper", 32, YELLOW))
         (Stats::new(2, &[]))
@@ -60,20 +62,67 @@ pub fn init() {
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("colonist", 34, DARKORANGE))
-        (Stats::new(4, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Base))
+        (Desc::new("stalker", 60, ORCHID))
+        (Stats::new(4, &[]))
+        (Spawn::new(Category::Mob))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("marine", 36, DARKOLIVEGREEN))
+        (Desc::new("metawasp", 58, ORANGERED))
+        // Glass cannon
+        (Stats::new(4, &[Fast]).protection(-1).attack(2))
+        (Spawn::new(Category::Mob).commonness(600))
+        ;
+
+    // Can open doors, good for base attack.
+    Prototype::new(Some(base_mob))
+        (Desc::new("space monkey", 46, LAWNGREEN))
         (Stats::new(6, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Base))
+        (Spawn::new(Category::Mob).commonness(600))
         ;
 
     Prototype::new(Some(base_mob))
         (Desc::new("rumbler", 38, OLIVE))
         (Stats::new(8, &[]))
-        (Spawn::new(Category::Mob))
+        (Spawn::new(Category::Mob).commonness(100))
+        ;
+
+    // Terran
+    Prototype::new(Some(base_mob))
+        (Desc::new("colonist", 34, DARKORANGE))
+        (Stats::new(6, &[Hands]))
+        (Spawn::new(Category::Mob).biome(Base))
+        (Colonist::new())
+        ;
+
+    // TODO: Ranged attack
+    Prototype::new(Some(base_mob))
+        (Desc::new("marine", 36, DARKOLIVEGREEN))
+        (Stats::new(8, &[Hands]))
+        (Spawn::new(Category::Mob).biome(Base).commonness(400))
+        (Colonist::new())
+        ;
+
+    // TODO: Ranged attack
+    Prototype::new(Some(base_mob))
+        (Desc::new("cyber controller", 42, LIGHTSLATEGRAY))
+        (Stats::new(12, &[Hands, Robotic]))
+        (Colonist::new())
+        (Spawn::new(Category::Mob).biome(Base).commonness(40))
+        ;
+
+    // Dogs count as colonists because of terran DNA
+    Prototype::new(Some(base_mob))
+        (Desc::new("dog", 44, OLIVE))
+        (Stats::new(4, &[]))
+        (Spawn::new(Category::Mob).biome(Base))
+        (Colonist::new())
+        ;
+
+    // Robots don't count as colonists, being completely inorganic
+    Prototype::new(Some(base_mob))
+        (Desc::new("robot", 62, SILVER))
+        (Stats::new(6, &[Hands, Robotic]))
+        (Spawn::new(Category::Mob).biome(Base).commonness(200))
         ;
 }
