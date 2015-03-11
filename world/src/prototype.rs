@@ -42,12 +42,17 @@ pub fn init() {
         ({let h: Health = Default::default(); h})
         .target;
 
+    let colonist = Prototype::new(None)
+        (Brain { state: BrainState::Asleep, alignment: Alignment::Colonist })
+        ({let h: Health = Default::default(); h})
+        .target;
+
     // Init the prototypes
 
     // Player
     Prototype::new(Some(base_mob))
         (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
-        (Desc::new("player", 40, CYAN))
+        (Desc::new("phage", 40, CYAN))
         (Stats::new(2, &[]).attack(2))
         (MapMemory::new())
         ;
@@ -87,8 +92,9 @@ pub fn init() {
         (Spawn::new(Category::Mob).commonness(100))
         ;
 
-    // Terran
-    Prototype::new(Some(base_mob))
+    // Colonist enemies
+
+    Prototype::new(Some(colonist))
         (Desc::new("colonist", 34, DARKORANGE))
         (Stats::new(6, &[Hands]))
         (Spawn::new(Category::Mob).biome(Base))
@@ -96,7 +102,7 @@ pub fn init() {
         ;
 
     // TODO: Ranged attack
-    Prototype::new(Some(base_mob))
+    Prototype::new(Some(colonist))
         (Desc::new("marine", 36, DARKOLIVEGREEN))
         (Stats::new(8, &[Hands]))
         (Spawn::new(Category::Mob).biome(Base).commonness(400))
@@ -104,7 +110,7 @@ pub fn init() {
         ;
 
     // TODO: Ranged attack
-    Prototype::new(Some(base_mob))
+    Prototype::new(Some(colonist))
         (Desc::new("cyber controller", 42, LIGHTSLATEGRAY))
         (Stats::new(12, &[Hands, Robotic]))
         (Colonist::new())
@@ -112,7 +118,7 @@ pub fn init() {
         ;
 
     // Dogs count as colonists because of terran DNA
-    Prototype::new(Some(base_mob))
+    Prototype::new(Some(colonist))
         (Desc::new("dog", 44, OLIVE))
         (Stats::new(4, &[]))
         (Spawn::new(Category::Mob).biome(Base))
@@ -120,7 +126,7 @@ pub fn init() {
         ;
 
     // Robots don't count as colonists, being completely inorganic
-    Prototype::new(Some(base_mob))
+    Prototype::new(Some(colonist))
         (Desc::new("robot", 62, SILVER))
         (Stats::new(6, &[Hands, Robotic]))
         (Spawn::new(Category::Mob).biome(Base).commonness(200))

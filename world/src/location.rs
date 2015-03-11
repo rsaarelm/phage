@@ -10,7 +10,7 @@ use world;
 use action;
 use flags;
 use ecs::{ComponentAccess};
-use {Light};
+use {Light, Biome};
 
 /// Unambiguous location in the game world.
 #[derive(Copy, Eq, PartialEq, Clone, Hash, PartialOrd, Ord, Debug, RustcEncodable, RustcDecodable)]
@@ -154,6 +154,13 @@ impl Location {
             return Light::new(if lum >= 0.0 { lum } else { 0.0 });
         }
         return Light::new(1.0);
+    }
+
+    pub fn biome(&self) -> Biome {
+        match world::with(|w| { w.area.biomes.get(self).map(|&x| x) }) {
+            Some(b) => b,
+            _ => Biome::Overland
+        }
     }
 }
 

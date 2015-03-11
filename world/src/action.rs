@@ -162,7 +162,7 @@ pub fn start_level(depth: i32) {
             p.place(start_loc);
         }
         None => {
-            let player = find_prototype("player").expect("No Player prototype found!")
+            let player = find_prototype("phage").expect("No Player prototype found!")
             .clone_at(start_loc);
             world::with_mut(|w| w.flags.player = Some(player));
         }

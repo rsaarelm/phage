@@ -542,10 +542,17 @@ impl Entity {
             self.mob_ai();
         }
 
-        if self.is_player() && !self.is_exposed_phage() {
-            // Host rots gradually.
-            if rng::p(0.1) {
-                self.damage(1);
+        if self.is_player() {
+            if !self.is_exposed_phage() {
+                // Host rots slowly.
+                if rng::one_chance_in(10) {
+                    self.damage(1);
+                }
+            } else {
+                // Exposed phage regenerates
+                if rng::one_chance_in(6) {
+                    self.heal(1);
+                }
             }
         }
     }
@@ -766,7 +773,7 @@ impl Entity {
     pub fn exit_host(self) {
         assert!(self.is_player() && !self.is_exposed_phage());
 
-        self.reparent(action::find_prototype("player").expect("No player prototype"));
+        self.reparent(action::find_prototype("phage").expect("No player prototype"));
         world::with_mut(|w| {
             // Remove custom desc.
             w.descs_mut().clear(self);

@@ -25,7 +25,7 @@ macro_rules! terrain_data {
 }
 
 terrain_data! {
-    count: 27;
+    count: 28;
 
     Void, "void";
     Floor, "floor";
@@ -55,6 +55,7 @@ terrain_data! {
     CraterSW, "crater";
     CraterNW, "crater";
     Crater, "crater";
+    Pod, "pod";
 }
 
 
@@ -91,7 +92,7 @@ impl TerrainType {
         match self {
             Floor | Shallows | Grass | Grass2 | Crater
                 | CraterN | CraterNE | CraterSE
-                | CraterS | CraterSW | CraterNW
+                | CraterS | CraterSW | CraterNW | Pod
                 | Door | OpenDoor | TallGrass => false,
             _ => true
         }

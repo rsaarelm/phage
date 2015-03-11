@@ -61,7 +61,7 @@ pub mod tile {
     pub static TREE_TRUNK : usize = 48;
     pub static TREE_FOLIAGE : usize = 49;
     pub static TABLE : usize = 50;
-    pub static AVATAR : usize = 51;
+    pub static POD : usize = 51;
     pub static BLOCK : usize = 52;
     pub static FOUNTAIN : usize = 53;
     pub static ALTAR : usize = 54;

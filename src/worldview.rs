@@ -251,6 +251,9 @@ impl<'a> CellDrawable<'a> {
             TerrainType::Crater => {
                 self.draw_floor(ctx, CRATER, offset, FLOOR_Z, &SLATEGRAY);
             },
+            TerrainType::Pod => {
+                self.draw_floor(ctx, POD, offset, FLOOR_Z, &DARKCYAN);
+            },
         }
 
         fn blockform(c: &CellDrawable, ctx: &mut Canvas, k: &Kernel<TerrainType>, mut offset: V2<f32>, idx: usize, color: &Rgb) {
