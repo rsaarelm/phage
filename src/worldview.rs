@@ -252,7 +252,8 @@ impl<'a> CellDrawable<'a> {
                 self.draw_floor(ctx, CRATER, offset, FLOOR_Z, &SLATEGRAY);
             },
             TerrainType::Pod => {
-                self.draw_floor(ctx, POD, offset, FLOOR_Z, &DARKCYAN);
+                self.draw_floor(ctx, FLOOR, offset, FLOOR_Z, &SLATEGRAY);
+                self.draw_floor(ctx, POD, offset, BLOCK_Z, &DARKCYAN);
             },
         }
 
