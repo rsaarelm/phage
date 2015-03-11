@@ -10,7 +10,7 @@ use world::action::ControlState::*;
 use world::{Msg, FovStatus};
 use world::Dir6;
 use world::Dir6::*;
-use world::{Entity};
+use world::{Entity, TerrainType};
 use world::item::{Slot};
 use worldview;
 use sprite::{WorldSprites, GibSprite, BeamSprite};

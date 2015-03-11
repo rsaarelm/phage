@@ -17,6 +17,7 @@ use msg;
 use item::{ItemType, Slot};
 use stats::{Stats, Intrinsic};
 use ecs::{ComponentAccess};
+use terrain::TerrainType;
 
 /// Game object handle.
 #[derive(Copy, PartialEq, Eq, Clone, Hash, PartialOrd, Ord, Debug, RustcDecodable, RustcEncodable)]
@@ -102,7 +103,7 @@ impl Entity {
         let place = world::with(|w| w.spatial.get(self));
         if let Some(Place::At(loc)) = place {
             let new_loc = loc + dir.to_v2();
-            return self.can_enter(new_loc);
+            return new_loc.terrain() == TerrainType::Door || self.can_enter(new_loc);
         }
         return false;
     }
@@ -115,6 +116,16 @@ impl Entity {
             if self.can_enter(new_loc) {
                 world::with_mut(|w| w.spatial.insert_at(self, new_loc));
                 self.on_move_to(new_loc);
+            } else if new_loc.terrain() == TerrainType::Door {
+                // Can't enter doors.
+                let force_difficulty = 5 - self.stats().power / 2;
+                if force_difficulty <= 1 || rng::one_chance_in(force_difficulty as u32) {
+                    world::with_mut(|w| w.spatial.insert_at(self, new_loc));
+                    self.on_move_to(new_loc);
+                    msgln!("Door forced.");
+                } else {
+                    msgln!("Morph has trouble with doors.");
+                }
             }
         }
     }
@@ -198,7 +209,12 @@ impl Entity {
             return;
         }
 
-        msgln!("{} dies.", self.name());
+        if self.has_intrinsic(Intrinsic::Robotic) {
+            msgln!("{} destroyed.", capitalize(&self.name()));
+        } else {
+            msgln!("{} dies.", capitalize(&self.name()));
+        }
+
         msg::push(::Msg::Gib(loc));
 
         // Turn into corpse.
@@ -675,6 +691,7 @@ impl Entity {
         }
 
         if collider.is_player() && self.is_corpse() && !self.has_intrinsic(Intrinsic::Robotic) {
+            msgln!("Inhabiting {}.", self.name());
             collider.possess(self);
         }
     }
@@ -759,6 +776,8 @@ impl Entity {
             w.stats_mut().get(self).expect("no stats").attack += 2;
         });
 
+        self.dirty_stats_cache();
+
         if !self.is_exposed_phage() {
             // Discard previous host.
             msg::push(::Msg::Gib(self.location().unwrap()));
@@ -774,14 +793,26 @@ impl Entity {
         assert!(self.is_player() && !self.is_exposed_phage());
 
         self.reparent(action::find_prototype("phage").expect("No player prototype"));
+
         world::with_mut(|w| {
             // Remove custom desc.
             w.descs_mut().clear(self);
+            // Remove custom stats.
+            w.stats_mut().clear(self);
             // Go full health.
             w.healths_mut().get(self).expect("no health").wounds = 0;
         });
+        self.dirty_stats_cache();
 
         // Gib fx from the host body.
         msg::push(::Msg::Gib(self.location().unwrap()));
+        msgln!("Morph lost.");
     }
+}
+
+// TODO: Put in library
+fn capitalize(string: &str) -> String {
+    string.chars().enumerate()
+        .map(|(i, c)| if i == 0 { c.to_uppercase() } else { c })
+        .collect::<String>()
 }
