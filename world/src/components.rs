@@ -121,6 +121,8 @@ pub enum BrainState {
     Asleep,
     /// AI mob is looking for a fight.
     Hunting,
+    /// AI mob is wandering around.
+    Roaming,
     /// Mob is under player control.
     PlayerControl,
 }

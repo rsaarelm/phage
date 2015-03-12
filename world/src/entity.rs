@@ -603,7 +603,7 @@ impl Entity {
                 // TODO: Line-of-sight, stealth concerns, other enemies than
                 // player etc.
                 if let Some(d) = p.distance_from(self) {
-                    if d < 6 {
+                    if d < 8 && rng::one_chance_in((d / 2) as u32 + 1) {
                         self.wake_up();
                     }
                 }
@@ -612,27 +612,48 @@ impl Entity {
             return;
         }
 
-        if let Some(p) = action::player() {
-            let loc = self.location().expect("no location");
+        // Start hunting nearby enemy.
+        if self.brain_state() == Some(BrainState::Roaming) {
+            if let Some(p) = action::player() {
+                if let Some(d) = p.distance_from(self) {
+                    // TODO: Line-of-sight
+                    if d < 6 {
+                        self.set_brain_state(BrainState::Hunting);
+                    }
+                }
+            }
+        }
 
-            let vec_to_enemy = loc.v2_at(p.location().expect("no location"));
-            if let Some(v) = vec_to_enemy {
-                if v.hex_dist() == 1 {
-                    // Melee range, hit.
-                    self.melee(Dir6::from_v2(v));
-                } else {
-                    // Walk towards.
-                    let pathing_depth = 16;
-                    let pathing = Dijkstra::new(
-                        vec![p.location().expect("no location")], |&loc| !loc.blocks_walk(),
-                        pathing_depth);
+        if self.brain_state() == Some(BrainState::Roaming) {
+            self.step(rng::gen());
+            if rng::one_chance_in(32) { self.set_brain_state(BrainState::Asleep); }
+            return;
+        }
 
-                    let steps = pathing.sorted_neighbors(&loc);
-                    if steps.len() > 0 {
-                        self.step(loc.dir6_towards(steps[0]).expect("No loc pair orientation"));
+        if self.brain_state() == Some(BrainState::Hunting) {
+            // TODO: Fight other mobs than player.
+            if let Some(p) = action::player() {
+                let loc = self.location().expect("no location");
+
+                let vec_to_enemy = loc.v2_at(p.location().expect("no location"));
+                if let Some(v) = vec_to_enemy {
+                    if v.hex_dist() == 1 {
+                        // Melee range, hit.
+                        self.melee(Dir6::from_v2(v));
                     } else {
-                        self.step(rng::with(|ref mut rng| rng.gen::<Dir6>()));
-                        // TODO: Fall asleep if things get boring.
+                        // Walk towards.
+                        let pathing_depth = 16;
+                        let pathing = Dijkstra::new(
+                            vec![p.location().expect("no location")], |&loc| !loc.blocks_walk(),
+                            pathing_depth);
+
+                        let steps = pathing.sorted_neighbors(&loc);
+                        if steps.len() > 0 {
+                            self.step(loc.dir6_towards(steps[0]).expect("No loc pair orientation"));
+                        } else {
+                            self.step(rng::gen());
+                            // TODO: Fall asleep if things get boring.
+                        }
                     }
                 }
             }
