@@ -53,7 +53,7 @@ pub fn init() {
     Prototype::new(Some(base_mob))
         (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
         (Desc::new("phage", 40, CYAN))
-        (Stats::new(2, &[]).attack(2))
+        (Stats::new(2, &[]).attack(3))
         (MapMemory::new())
         ;
 
@@ -63,7 +63,7 @@ pub fn init() {
     Prototype::new(Some(base_mob))
         (Desc::new("hopper", 32, YELLOW))
         (Stats::new(2, &[]))
-        (Spawn::new(Category::Mob))
+        (Spawn::new(Category::Mob).commonness(2000))
         ;
 
     Prototype::new(Some(base_mob))

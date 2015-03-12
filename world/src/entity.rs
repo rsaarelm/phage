@@ -640,10 +640,12 @@ impl Entity {
         // Start hunting nearby enemy.
         if self.brain_state() == Some(BrainState::Roaming) {
             if let Some(p) = action::player() {
-                if let Some(d) = p.distance_from(self) {
-                    // TODO: Line-of-sight
-                    if d < 6 {
-                        self.set_brain_state(BrainState::Hunting);
+                if !p.is_corpse() {
+                    if let Some(d) = p.distance_from(self) {
+                        // TODO: Line-of-sight
+                        if d < 6 {
+                            self.set_brain_state(BrainState::Hunting);
+                        }
                     }
                 }
             }
@@ -658,6 +660,10 @@ impl Entity {
         if self.brain_state() == Some(BrainState::Hunting) {
             // TODO: Fight other mobs than player.
             if let Some(p) = action::player() {
+                if p.is_corpse() {
+                    self.set_brain_state(BrainState::Roaming);
+                }
+
                 let loc = self.location().expect("no location");
 
                 let vec_to_enemy = loc.v2_at(p.location().expect("no location"));
@@ -677,7 +683,6 @@ impl Entity {
                             self.step(loc.dir6_towards(steps[0]).expect("No loc pair orientation"));
                         } else {
                             self.step(rng::gen());
-                            // TODO: Fall asleep if things get boring.
                         }
                     }
                 }
@@ -822,7 +827,7 @@ impl Entity {
 
             // Adrenal overload.
             w.stats_mut().clear(self);
-            w.stats_mut().get(self).expect("no stats").attack += 2;
+            w.stats_mut().get(self).expect("no stats").attack += 3;
         });
 
         self.dirty_stats_cache();
