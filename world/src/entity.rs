@@ -103,7 +103,8 @@ impl Entity {
         let place = world::with(|w| w.spatial.get(self));
         if let Some(Place::At(loc)) = place {
             let new_loc = loc + dir.to_v2();
-            return new_loc.terrain() == TerrainType::Door || self.can_enter(new_loc);
+            return self.can_enter(new_loc) ||
+                (self.is_player() && new_loc.terrain() == TerrainType::Door);
         }
         return false;
     }
@@ -116,8 +117,8 @@ impl Entity {
             if self.can_enter(new_loc) {
                 world::with_mut(|w| w.spatial.insert_at(self, new_loc));
                 self.on_move_to(new_loc);
-            } else if new_loc.terrain() == TerrainType::Door {
-                // Can't enter doors.
+            } else if new_loc.terrain() == TerrainType::Door && self.is_player() {
+                // Player can force doors even in unsuitable form.
                 let force_difficulty = 5 - self.stats().power / 2;
                 if force_difficulty <= 1 || rng::one_chance_in(force_difficulty as u32) {
                     world::with_mut(|w| w.spatial.insert_at(self, new_loc));
