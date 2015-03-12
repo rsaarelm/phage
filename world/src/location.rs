@@ -162,6 +162,15 @@ impl Location {
             _ => Biome::Overland
         }
     }
+
+    /// Try to find a nearby valid location if self doesn't satisfy predicate.
+    pub fn spill<P: Fn<(Location,), Output=bool>>(&self, valid_pos: P) -> Option<Location> {
+        if valid_pos(*self) { return Some(*self); }
+        if let Some(loc) = Dir6::iter().map(|d| *self + d.to_v2()).find(|&x| valid_pos(x)) {
+            return Some(loc);
+        }
+        None
+    }
 }
 
 impl Add<V2<i32>> for Location {

@@ -241,6 +241,15 @@ impl Entity {
             w.descs_mut().get(self).expect("no desc").icon += 1;
         });
 
+        // Try to have one corpse per cell, spill out if dying on top of
+        // another corpse. (If there's no room left around, the corpses will
+        // just stack.)
+        if let Some(loc) = self.location().unwrap().spill(
+            |loc| self.can_enter(loc) &&
+            loc.entities().iter().find(|&x| x != &self && x.is_corpse()).is_none()) {
+            self.place(loc);
+        }
+
         self.set_intrinsic(Intrinsic::Dead);
         //self.delete();
     }
