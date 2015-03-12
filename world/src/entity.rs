@@ -70,6 +70,11 @@ impl Entity {
     pub fn clone_at(self, loc: Location) -> Entity {
         let ret = world::with_mut(|w| { w.ecs.new_entity(Some(self)) });
         ret.place(loc);
+
+        if ret.is_terran() {
+            world::with_mut(|w| w.flags.terrans_left += 1);
+        }
+
         ret
     }
 
@@ -214,6 +219,17 @@ impl Entity {
             msgln!("{} destroyed.", capitalize(&self.name()));
         } else {
             msgln!("{} dies.", capitalize(&self.name()));
+        }
+
+        if self.is_terran() {
+            let terrans_left = world::with_mut(|w| {
+                w.flags.terrans_left -= 1;
+                w.flags.terrans_left
+            });
+
+            if terrans_left == 0 {
+                caption!("No further terran DNA detected. Phage has control of the zone.");
+            }
         }
 
         msg::push(::Msg::Gib(loc));
@@ -759,6 +775,8 @@ impl Entity {
     }
 
 // Phage stuff /////////////////////////////////////////////////////////
+
+    pub fn is_terran(self) -> bool { world::with(|w| w.colonists().get(self).is_some()) }
 
     /// Self is the exposed phage form, not possessing a host.
     pub fn is_exposed_phage(self) -> bool {

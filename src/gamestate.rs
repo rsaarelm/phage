@@ -83,10 +83,12 @@ impl GameState {
 
         let location_name = camera.name();
 
+        let count = action::terrans_left();
+
         Fonter::new(ctx)
             .color(&color::LIGHTGRAY).border(&color::BLACK)
             .anchor(Anchor::TopRight).align(Align::Right)
-            .text(location_name)
+            .text(format!("{} terran{} in zone", count, if count != 1 { "s" } else { "" }))
             .draw(V2(638.0, 0.0));
 
         self.msg.draw(ctx);

@@ -240,3 +240,7 @@ pub fn find_target(shooter: Entity, dir: Dir6, range: usize) -> Option<Entity> {
     }
     None
 }
+
+///////////////////////////////////////////////////////////////////////
+
+pub fn terrans_left() -> u32 { world::with(|w| w.flags.terrans_left) }
