@@ -72,6 +72,7 @@ pub fn main() {
     println!("{}", compiler_version());
     let mut canvas = backend::CanvasBuilder::new()
         .set_size(SCREEN_W, SCREEN_H)
+        .set_title("Phage")
         .set_frame_interval(0.030f64);
     tilecache::init(&mut canvas);
     let mut state: Box<State> = Box::new(TitleState::new());

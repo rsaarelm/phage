@@ -49,11 +49,18 @@ enum UiState {
 impl GameState {
     pub fn new(seed: Option<u32>) -> GameState {
         world::init_world(seed);
+        let mut msg = MsgQueue::new();
+
+        msg.msg("Move with Q,W,E, A,S,D, wait with SPACE\n".to_string());
+        msg.msg("Exposed phage is weak, find stronger hosts.\n".to_string());
+        msg.caption("Phage deployed".to_string());
+        msg.caption("Clear zone of terran life".to_string());
+
         GameState {
             world_spr: WorldSprites::new(),
             damage_timers: HashMap::new(),
             exploring: false,
-            msg: MsgQueue::new(),
+            msg: msg,
             ui_state: UiState::Gameplay,
             screenshot_requested: false,
             console: Console::new(),

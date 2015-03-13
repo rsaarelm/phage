@@ -215,7 +215,9 @@ impl Entity {
             return;
         }
 
-        if self.has_intrinsic(Intrinsic::Robotic) {
+        if self.is_player() {
+            caption!("Phage lost");
+        } else if self.has_intrinsic(Intrinsic::Robotic) {
             msgln!("{} destroyed.", capitalize(&self.name()));
         } else {
             msgln!("{} dies.", capitalize(&self.name()));
@@ -228,7 +230,7 @@ impl Entity {
             });
 
             if terrans_left == 0 {
-                caption!("No further terran DNA detected. Phage has control of the zone.");
+                caption!("Zero terran DNA signatures detected. Phage has secured the zone.");
             }
         }
 
