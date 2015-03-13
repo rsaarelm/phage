@@ -62,7 +62,7 @@ pub fn init() {
     // Indigenous
     Prototype::new(Some(base_mob))
         (Desc::new("hopper", 32, YELLOW))
-        (Stats::new(2, &[]))
+        (Stats::new(4, &[]).protection(-2))
         (Spawn::new(Category::Mob).commonness(2000))
         ;
 
