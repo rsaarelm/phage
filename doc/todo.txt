@@ -1,9 +1,7 @@
 # vim:formatoptions-=t:showbreak=\ \ :linebreak:wrap
-(B) 2015-03-07 Autosave and resume, save when exiting game
+(A) 2015-03-13 Improve screenshot, use local dir, 00 count after seconds
 (B) 2015-03-07 Ranged combat AI for marines
-(B) 2015-03-07 Title screen has [New game] and if there's a valid save file, [Continue game]
 (B) 2015-03-09 Corpses rot away after a while
-(B) 2015-03-09 Game over after-death process, mobs wander randomly, after a few seconds back to title
 (B) 2015-03-10 Tag the final release version with as v1.0.0
 (B) 2015-03-10 Upload release-build binaries for windows and linux when done
 (C) 2015-03-09 Ammo clip reload mechanic when inhabiting ranged attacker
@@ -16,6 +14,7 @@
 (C) 2015-03-11 Phage has emergency burrow power that does a short-range teleport, has cooldown.
 (C) 2015-03-11 Sentry guns, immobile ranged robots
 (C) 2015-03-11 Triffids, slow ranged attack indigenous (spit thorns)
+(C) 2015-03-13 Flying critters are always roaming, won't sleep
 x 2015-03-07 2015-03-07 Cool title screen
 x 2015-03-08 2015-03-07 New player avatar sprite
 x 2015-03-08 2015-03-07 Possession mechanic, change player avatar properties (reparenting?)
@@ -38,3 +37,6 @@ x 2015-03-12 2015-03-07 Kill counter
 x 2015-03-12 2015-03-10 End-game condition when everything is dead
 x 2015-03-12 2015-03-11 Mobs get tired of chasing you and switch to roaming or sleep
 x 2015-03-12 2015-03-11 There seems to be a performance crash when too many mobs get AI activated, investigate (possible that two mobs end up somehow busy-looping the thing by not finding paths and not ending turn?) (couldn't reproduce) +Cancelled
+x 2015-03-13 2015-03-07 Autosave and resume, save when exiting game
+x 2015-03-13 2015-03-07 Title screen has [New game] and if there's a valid save file, [Continue game]
+x 2015-03-13 2015-03-09 Game over after-death process, mobs wander randomly, after a few seconds back to title
