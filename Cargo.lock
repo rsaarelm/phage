@@ -100,7 +100,7 @@ dependencies = [
 [[package]]
 name = "glium"
 version = "0.1.1"
-source = "git+https://github.com/tomaka/glium#6c15877d1d43984dec875a9657f6f4c7e59b9f9e"
+source = "git+https://github.com/tomaka/glium#2deb509d4b5eacedd2f59d746b03afb35eae3648"
 dependencies = [
  "cgmath 0.0.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "gl_common 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -115,7 +115,7 @@ dependencies = [
 [[package]]
 name = "glium_macros"
 version = "0.0.1"
-source = "git+https://github.com/tomaka/glium#6c15877d1d43984dec875a9657f6f4c7e59b9f9e"
+source = "git+https://github.com/tomaka/glium#2deb509d4b5eacedd2f59d746b03afb35eae3648"
 
 [[package]]
 name = "glutin"
