@@ -53,7 +53,7 @@ pub fn init() {
     Prototype::new(Some(base_mob))
         (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
         (Desc::new("phage", 40, CYAN))
-        (Stats::new(2, &[]).attack(3))
+        (Stats::new(2, &[Fast]).attack(3))
         (MapMemory::new())
         ;
 
@@ -88,7 +88,7 @@ pub fn init() {
 
     Prototype::new(Some(base_mob))
         (Desc::new("rumbler", 38, OLIVE))
-        (Stats::new(8, &[]))
+        (Stats::new(8, &[Slow]))
         (Spawn::new(Category::Mob).commonness(100))
         ;
 
@@ -112,7 +112,7 @@ pub fn init() {
     // TODO: Ranged attack
     Prototype::new(Some(colonist))
         (Desc::new("cyber controller", 42, LIGHTSLATEGRAY))
-        (Stats::new(12, &[Hands, Robotic]))
+        (Stats::new(12, &[Slow, Hands, Robotic]))
         (Colonist::new())
         (Spawn::new(Category::Mob).biome(Base).commonness(40))
         ;
@@ -128,7 +128,7 @@ pub fn init() {
     // Robots don't count as colonists, being completely inorganic
     Prototype::new(Some(colonist))
         (Desc::new("robot", 62, SILVER))
-        (Stats::new(6, &[Hands, Robotic]))
+        (Stats::new(6, &[Hands, Robotic, Slow]))
         (Spawn::new(Category::Mob).biome(Base).commonness(200))
         ;
 }

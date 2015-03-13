@@ -68,12 +68,12 @@ pub enum Intrinsic {
     Slow        = 0b1,
     /// Moves 1/3 faster than usual, stacks with Quick status.
     Fast        = 0b10,
+    /// Moves 1/3 faster than usual, stacks with Fast status.
+    Quick       = 0b100,
     /// Can manipulate objects and doors.
-    Hands       = 0b100,
+    Hands       = 0b1000,
     /// Is dead
-    Dead        = 0b1000,
-    /// Can smash doors
-    DoorSmasher = 0b10000,
+    Dead        = 0b10000,
     /// Inorganic, phage can't use corpse
     Robotic     = 0b100000,
 }
