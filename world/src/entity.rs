@@ -1,5 +1,4 @@
 use std::default::Default;
-use rand::Rng;
 use util::Dijkstra;
 use util::Rgb;
 use util::color;
@@ -869,6 +868,6 @@ impl Entity {
 // TODO: Put in library
 fn capitalize(string: &str) -> String {
     string.chars().enumerate()
-        .map(|(i, c)| if i == 0 { c.to_uppercase() } else { c })
+        .map(|(i, c)| if i == 0 { c.to_uppercase().next().unwrap() } else { c })
         .collect::<String>()
 }
