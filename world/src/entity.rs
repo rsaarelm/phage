@@ -216,6 +216,7 @@ impl Entity {
 
         if self.is_player() {
             caption!("Phage lost");
+            action::delete_save();
         } else if self.has_intrinsic(Intrinsic::Robotic) {
             msgln!("{} destroyed.", capitalize(&self.name()));
         } else {

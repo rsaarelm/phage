@@ -1,5 +1,3 @@
-use std::old_io::File;
-use std::old_io::fs::PathExtensions;
 use std::collections::HashMap;
 use util::{color, V2, Anchor};
 use backend::{Canvas, CanvasUtil, Event, Key, Fonter, Align};
@@ -50,8 +48,10 @@ impl GameState {
     pub fn new(seed: Option<u32>) -> GameState {
         world::init_world(seed);
         let mut msg = MsgQueue::new();
+        action::load_game();
 
         msg.msg("Move with Q,W,E, A,S,D, wait with SPACE\n".to_string());
+        msg.msg("ESC to save and return to title screen\n".to_string());
         msg.msg("Exposed phage is weak, find stronger hosts.\n".to_string());
         msg.caption("Phage deployed".to_string());
         msg.caption("Clear zone of terran life".to_string());
@@ -266,20 +266,6 @@ impl GameState {
         }
     }
 
-    pub fn save_game(&self) {
-        let save_data = world::save();
-        let mut file = File::create(&Path::new("phage_save.json"));
-        file.write_str(&save_data[..]).unwrap();
-    }
-
-    pub fn load_game(&mut self) {
-        let path = Path::new("phage_save.json");
-        if !path.exists() { return; }
-        let save_data = File::open(&path).read_to_string().unwrap();
-        // TODO: Handle failed load nicely.
-        world::load(&save_data[..]).unwrap();
-    }
-
     fn smart_move(&mut self, dir: Dir6) {
         let player = action::player().unwrap();
         let loc = player.location().unwrap();
@@ -345,11 +331,11 @@ impl GameState {
             Key::S | Key::Pad2 | Key::Down => { self.smart_move(South); }
             Key::D | Key::Pad3 => { self.smart_move(SouthEast); }
 
-            Key::Space => { action::input(Pass); }
+            Key::Space | Key::Pad5 => { action::input(Pass); }
             Key::X => { self.exploring = true; }
 
-            Key::F5 if !cfg!(ndebug) => { self.save_game(); }
-            Key::F9 if !cfg!(ndebug) => { self.load_game(); }
+            Key::F5 if !cfg!(ndebug) => { action::save_game(); }
+            Key::F9 if !cfg!(ndebug) => { action::load_game(); }
             Key::F12 => { self.screenshot_requested = true; }
             _ => { return false; }
         }
@@ -363,6 +349,7 @@ impl GameState {
             }
             // TODO: Better quit confirmation than just pressing esc.
             Event::KeyPressed(Key::Escape) => {
+                action::save_game();
                 return false;
             }
             Event::KeyPressed(k) => {

@@ -2,6 +2,7 @@ use util::{V2, color, Color, Rgba, Anchor};
 use backend::{Key, Event};
 use backend::{CanvasUtil, Fonter, Align};
 use tilecache;
+use world::action;
 use ::{Transition, State};
 
 pub struct TitleState {
@@ -55,11 +56,33 @@ impl State for TitleState {
                     .align(Align::Center)
                     .text(format!("Copyright (C) Risto Saarelma 2015\nv{}{}", ::version(), if !cfg!(ndebug) { " debug" } else { "" }))
                     .draw(V2(320.0, 352.0));
+
+                Fonter::new(ctx)
+                    .color(&self.when_faded(color::DARKCYAN))
+                    .anchor(Anchor::TopLeft)
+                    .align(Align::Left)
+                    .text("N)ew game\nQ)uit".to_string())
+                    .draw(V2(280.0, 240.0));
+                if action::save_exists() {
+                    Fonter::new(ctx)
+                        .color(&self.when_faded(color::DARKCYAN))
+                        .anchor(Anchor::TopLeft)
+                        .align(Align::Left)
+                        .text("C)ontinue game".to_string())
+                        .draw(V2(280.0, 232.0));
+                }
             }
             Event::KeyPressed(Key::Escape) => {
                 return Some(Transition::Exit);
             }
             Event::KeyPressed(Key::F12) => { self.screenshot_requested = true; }
+            Event::KeyPressed(Key::Q) => {
+                return Some(Transition::Exit);
+            }
+            Event::KeyPressed(Key::N) => {
+                action::delete_save();
+                return Some(Transition::Game(None));
+            }
             Event::KeyPressed(_) => {
                 return Some(Transition::Game(None));
             }
