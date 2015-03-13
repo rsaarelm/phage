@@ -587,8 +587,8 @@ impl Entity {
         if self.is_player() {
             if !self.is_exposed_phage() {
                 // Host rots slowly.
-                if rng::one_chance_in(10) {
-                    self.damage(1);
+                if rng::one_chance_in(64) {
+                    self.apply_damage(1);
                 }
             } else {
                 // Exposed phage regenerates
