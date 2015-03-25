@@ -95,8 +95,6 @@ pub fn screenshot(ctx: &mut Canvas) {
 }
 
 pub fn main() {
-    println!("Phage v{}", version());
-    println!("{}", compiler_version());
     let mut canvas = CanvasBuilder::new()
         .set_size(SCREEN_W, SCREEN_H)
         .set_title("Phage")

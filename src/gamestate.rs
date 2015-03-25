@@ -134,8 +134,8 @@ impl GameState {
                 Some(Msg::Sparks(_loc)) => {
                     // TODO
                 }
-                Some(x) => {
-                    println!("Unhandled Msg type {:?}", x);
+                Some(_) => {
+                    //println!("Unhandled Msg type {:?}", x);
                 }
                 None => break
             }
