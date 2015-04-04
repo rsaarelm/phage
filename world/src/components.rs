@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 use calx::Rgba;
 use location::Location;
+use location_set::LocationSet;
 use {Biome};
 use item::{ItemType};
 use ability::Ability;
@@ -36,15 +37,15 @@ impl Desc {
 /// Map field-of-view and remembered terrain.
 #[derive(Clone, Debug, RustcEncodable, RustcDecodable)]
 pub struct MapMemory {
-    pub seen: HashSet<Location>,
-    pub remembered: HashSet<Location>,
+    pub seen: LocationSet,
+    pub remembered: LocationSet,
 }
 
 impl MapMemory {
     pub fn new() -> MapMemory {
         MapMemory {
-            seen: HashSet::new(),
-            remembered: HashSet::new(),
+            seen: LocationSet::new(),
+            remembered: LocationSet::new(),
         }
     }
 }

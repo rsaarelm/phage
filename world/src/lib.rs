@@ -47,6 +47,7 @@ mod fov;
 mod geomorph;
 mod geomorph_data;
 mod location;
+mod location_set;
 mod mapgen;
 mod msg;
 mod prototype;
