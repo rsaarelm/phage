@@ -1,6 +1,6 @@
 use num::{Integer};
 use rand::Rng;
-use util::{V2, Rect};
+use calx::{V2, Rect};
 use geomorph;
 use geomorph::{Chunk};
 use terrain::TerrainType;

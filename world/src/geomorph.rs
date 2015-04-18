@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
-use util::text::Map2DUtil;
+use calx::text::Map2DUtil;
 use terrain::TerrainType::*;
 use terrain::TerrainType;
 use {AreaSpec, Biome};
@@ -9,7 +9,7 @@ use dir6::Dir6;
 
 thread_local!(static CHUNK_CACHE: RefCell<Vec<Chunk>> = RefCell::new(vec![]));
 
-type Cells = HashMap<(i32, i32), TerrainType>;
+pub type Cells = HashMap<(i32, i32), TerrainType>;
 
 pub struct Chunk {
     pub cells: Cells,

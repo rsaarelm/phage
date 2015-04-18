@@ -1,5 +1,5 @@
 use std::default::Default;
-use util::color::*;
+use calx::color::*;
 use ecs::{Component, ComponentAccess};
 use entity::{Entity};
 use components::{Spawn, Category, IsPrototype};
@@ -10,7 +10,7 @@ use stats::Intrinsic::*;
 use Biome::*;
 use world;
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Prototype {
     pub target: Entity
 }
@@ -28,12 +28,26 @@ impl Prototype {
 }
 
 impl<C: Component> Fn<(C,)> for Prototype {
-    type Output = Prototype;
     extern "rust-call" fn call(&self, (comp,): (C,)) -> Prototype {
         comp.add_to(self.target);
         *self
     }
 }
+
+impl<C: Component> FnMut<(C,)> for Prototype {
+    extern "rust-call" fn call_mut(&mut self, (comp,): (C,)) -> Prototype {
+        Fn::call(*&self, (comp,))
+    }
+}
+
+impl<C: Component> FnOnce<(C,)> for Prototype {
+    type Output = Prototype;
+
+    extern "rust-call" fn call_once(self, (comp,): (C,)) -> Prototype {
+        Fn::call(&self, (comp,))
+    }
+}
+
 
 /// Only call at world init!
 pub fn init() {

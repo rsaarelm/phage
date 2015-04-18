@@ -1,6 +1,6 @@
 use std::num::{Float};
 use std::iter::Map;
-use util::{V2, Rect};
+use calx::{V2, Rect};
 use ::{SCREEN_W, SCREEN_H};
 
 /// Useful general constant for cell dimension ops.
@@ -53,7 +53,7 @@ pub fn cells_in_view_rect(view_rect: Rect<i32>) -> Map<ColumnRectIter, fn(V2<i32
         x0: x0,
         x1: x1,
         y1: y1,
-    }.map(column_to_chart as fn(V2<i32>) -> V2<i32>)
+    }.map(column_to_chart)
 }
 
 pub fn cells_on_screen() -> Map<ColumnRectIter, fn(V2<i32>) -> V2<i32>> {
@@ -84,7 +84,7 @@ fn column_to_chart(cr: V2<i32>) -> V2<i32> {
        (-(cr.0 - 1) as f32 / 2f32).floor() as i32 + cr.1)
 }
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct ColumnRectIter {
     x: i32,
     y: i32,
@@ -124,7 +124,7 @@ impl Iterator for ColumnRectIter {
 
 #[cfg(test)]
 mod test {
-    use util::V2;
+    use calx::V2;
     use super::column_to_chart;
 
     #[test]

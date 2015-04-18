@@ -1,10 +1,10 @@
-use std::old_io::File;
-use std::fs;
-use std::old_io::fs::PathExtensions;
+use std::io::prelude::*;
+use std::path::{Path};
+use std::fs::{self, File};
 use rand::StdRng;
 use rand::SeedableRng;
 use std::iter::Filter;
-use util::Dijkstra;
+use calx::Dijkstra;
 use entity::Entity;
 use ecs::EntityIter;
 use world;
@@ -16,7 +16,7 @@ use ecs::{ComponentAccess};
 use msg;
 
 /// Game update control.
-#[derive(Copy, PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 pub enum ControlState {
     AwaitingInput,
     ReadyToUpdate,
@@ -259,20 +259,21 @@ pub fn save_game() {
     }
 
     let save_data = world::save();
-    let mut file = File::create(&Path::new("phage_save.json"));
-    file.write_str(&save_data[..]).unwrap();
+    File::create("phage_save.json").unwrap()
+        .write_all(&save_data.into_bytes()).unwrap();
 }
 
 pub fn load_game() {
     let path = Path::new("phage_save.json");
     if !path.exists() { return; }
-    let save_data = File::open(&path).read_to_string().unwrap();
+    let mut save_data = String::new();
+    File::open(&path).unwrap().read_to_string(&mut save_data).unwrap();
     // TODO: Handle failed load nicely.
     world::load(&save_data[..]).unwrap();
 }
 
 pub fn delete_save() {
-    fs::remove_file("phage_save.json");
+    let _ = fs::remove_file("phage_save.json");
 }
 
 pub fn save_exists() -> bool  { Path::new("phage_save.json").exists() }

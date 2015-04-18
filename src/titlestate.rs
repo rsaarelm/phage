@@ -1,6 +1,6 @@
-use util::{V2, color, Color, Rgba, Anchor};
-use backend::{Key, Event};
-use backend::{CanvasUtil, Fonter, Align};
+use calx::{V2, color, FromColor, ToColor, Rgba, Anchor};
+use calx::backend::{Key, Event};
+use calx::backend::{CanvasUtil, Fonter, Align};
 use tilecache;
 use world::action;
 use ::{Transition, State};
@@ -23,7 +23,7 @@ impl TitleState {
 static FADE_TIME: usize = 64;
 
 impl TitleState {
-    fn fade_in<C: Color>(&self, col: &C) -> Rgba {
+    fn fade_in<C: ToColor>(&self, col: &C) -> Rgba {
         let scale = if self.tick < FADE_TIME { self.tick as f32 }
             else { FADE_TIME as f32 } / FADE_TIME as f32;
         let mut rgba = col.to_rgba();
@@ -31,11 +31,11 @@ impl TitleState {
             rgba[i] *= scale;
         }
 
-        Color::from_rgba(rgba)
+        FromColor::from_rgba(rgba)
     }
 
-    fn when_faded<C: Color>(&self, col: C) -> C {
-        if self.tick < FADE_TIME { Color::from_color(&color::BLACK) } else { col }
+    fn when_faded<C: FromColor>(&self, col: C) -> C {
+        if self.tick < FADE_TIME { FromColor::from_color(&color::BLACK) } else { col }
     }
 }
 

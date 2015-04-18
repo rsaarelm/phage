@@ -2,7 +2,7 @@ use num::{Integer};
 use std::num::{Float};
 use std::iter::{Iterator, Chain};
 use std::option::{IntoIter};
-use util::{V2};
+use calx::{V2};
 use dir6::Dir6;
 
 pub struct Fov<F> {
@@ -129,7 +129,7 @@ impl<F: Fn<(V2<i32>,), Output=bool>> Iterator for Fov<F> {
 }
 
 /// Points on a hex circle expressed in polar coordinates.
-#[derive(Copy, PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 struct PolarPoint {
     pos: f32,
     radius: u32

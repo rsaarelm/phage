@@ -1,6 +1,6 @@
 use std::collections::HashMap;
-use util::{color, V2, Anchor};
-use backend::{Canvas, CanvasUtil, Event, Key, Fonter, Align};
+use calx::{color, V2, Anchor};
+use calx::backend::{Canvas, CanvasUtil, Event, Key, Fonter, Align};
 use world;
 use world::action;
 use world::action::Input::*;
@@ -8,7 +8,7 @@ use world::action::ControlState::*;
 use world::{Msg, FovStatus};
 use world::Dir6;
 use world::Dir6::*;
-use world::{Entity, TerrainType};
+use world::{Entity};
 use world::item::{Slot};
 use worldview;
 use sprite::{WorldSprites, GibSprite, BeamSprite};

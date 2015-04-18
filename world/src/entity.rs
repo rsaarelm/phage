@@ -1,7 +1,5 @@
 use std::default::Default;
-use util::Dijkstra;
-use util::Rgb;
-use util::color;
+use calx::{Dijkstra, Rgb, color};
 use world;
 use location::{Location};
 use dir6::Dir6;

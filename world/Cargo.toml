@@ -7,10 +7,6 @@ authors = [ "risto.saarelma@iki.fi" ]
 [lib]
 name = "world"
 
-# TODO: Use crates.io version once it's updated
-[dependencies.collect]
-git = "https://github.com/Gankro/collect-rs"
-
 [dependencies.rustc-serialize]
 
 [dependencies.num]
@@ -19,5 +15,5 @@ git = "https://github.com/Gankro/collect-rs"
 
 [dependencies.rand_macros]
 
-[dependencies.calx_util]
+[dependencies.calx]
 git = "https://github.com/rsaarelm/calx"

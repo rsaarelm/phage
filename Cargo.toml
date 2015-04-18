@@ -21,10 +21,7 @@ lto = true
 
 [dependencies.rustc-serialize]
 
-[dependencies.calx_util]
-git = "https://github.com/rsaarelm/calx"
-
-[dependencies.calx_backend]
+[dependencies.calx]
 git = "https://github.com/rsaarelm/calx"
 
 [dependencies.world]

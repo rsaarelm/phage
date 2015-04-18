@@ -1,16 +1,15 @@
 #![crate_name="phage"]
-#![feature(old_io, old_path, unicode)]
+#![feature(path_ext)]
 
 extern crate image;
-extern crate "calx_util" as util;
 
 #[macro_use]
-extern crate "calx_backend" as backend;
+extern crate calx;
 
 extern crate world;
 extern crate time;
 
-use backend::{Canvas};
+use calx::backend::{Canvas, Event, CanvasBuilder};
 
 use gamestate::GameState;
 use titlestate::TitleState;
@@ -29,7 +28,7 @@ mod msg_queue;
 mod console;
 
 pub trait State {
-    fn process(&mut self, event: backend::Event) -> Option<Transition>;
+    fn process(&mut self, event: Event) -> Option<Transition>;
 }
 
 pub enum Transition {
@@ -39,7 +38,7 @@ pub enum Transition {
 }
 
 pub fn version() -> String {
-    let next_release = "0.1.0-RC1";
+    let next_release = "0.1.0";
     let git_hash = include_str!("git_hash.inc");
     // Set is_release to true for one commit to make a release.
     let is_release = false;
@@ -52,25 +51,53 @@ pub fn version() -> String {
 }
 
 pub fn compiler_version() -> String {
-    include_str!("../rustc_version.txt").to_string()
+    include_str!("../rustc_version.txt").trim().to_string()
 }
 
 pub fn screenshot(ctx: &mut Canvas) {
     use time;
-    use std::old_io::File;
+    use std::path::{Path};
+    use std::fs::{self, File, PathExt};
     use image;
 
     let shot = ctx.screenshot();
-    let mut file = File::create(&Path::new(
-            format!("/tmp/shot-{}.png", time::precise_time_s() as u64)))
-            .unwrap();
-    let _ = image::ImageRgb8(shot).save(&mut file, image::PNG);
+
+    let timestamp = time::precise_time_s() as u64;
+    // Create screenshot filenames by concatenating the current timestamp in
+    // seconds with a running number from 00 to 99. 100 shots per second
+    // should be good enough.
+
+    // Default if we fail to generate any of the 100 candidates for this
+    // second, just overwrite with the "xx" prefix then.
+    let mut filename = format!("phage-{}{}.png", timestamp, "xx");
+
+    // Run through candidates for this second.
+    for i in 0..100 {
+        let test_filename = format!("phage-{}{:02}.png", timestamp, i);
+        if !Path::new(&test_filename).exists() {
+            // Thread-safe claiming: create_dir will fail if the dir
+            // already exists (it'll exist if another thread is gunning
+            // for the same filename and managed to get past us here).
+            // At least assuming that create_dir is atomic...
+            let squat_dir = format!(".tmp-{}{:02}", timestamp, i);
+            if std::fs::create_dir(&squat_dir).is_ok() {
+                File::create(&test_filename).unwrap();
+                filename = test_filename;
+                fs::remove_dir(&squat_dir).unwrap();
+                break;
+            } else {
+                continue;
+            }
+        }
+    }
+
+    let _ = image::save_buffer(&Path::new(&filename), &shot, shot.width(), shot.height(), image::ColorType::RGB(8));
 }
 
 pub fn main() {
     println!("Phage v{}", version());
     println!("{}", compiler_version());
-    let mut canvas = backend::CanvasBuilder::new()
+    let mut canvas = CanvasBuilder::new()
         .set_size(SCREEN_W, SCREEN_H)
         .set_title("Phage")
         .set_frame_interval(0.030f64);
