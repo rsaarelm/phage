@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use calx::Rgba;
+use calx::{FromColor, ToColor, Rgba};
 use location::Location;
 use location_set::LocationSet;
 use {Biome};
@@ -20,7 +20,7 @@ pub struct Desc {
 }
 
 impl Desc {
-    pub fn new(name: &str, icon: usize, color: Rgb) -> Desc {
+    pub fn new<C: ToColor>(name: &str, icon: usize, color: C) -> Desc {
         // XXX: Not idiomatic to set this to be called with a non-owned
         // &str instead of a String, I just want to get away from typing
         // .to_string() everywhere with the calls that mostly use string
@@ -28,7 +28,7 @@ impl Desc {
         Desc {
             name: name.to_string(),
             icon: icon,
-            color: color,
+            color: FromColor::from_color(&color),
         }
     }
 }
