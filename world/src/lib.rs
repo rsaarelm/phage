@@ -12,7 +12,6 @@ extern crate calx;
 
 pub use entity::{Entity};
 pub use flags::{camera, set_camera, get_tick};
-pub use fov::{Fov};
 pub use location::{Location, Chart, Unchart};
 pub use msg::{pop_msg};
 pub use terrain::{TerrainType};
@@ -43,7 +42,6 @@ mod component_ref;
 mod ecs;
 mod entity;
 mod flags;
-mod fov;
 mod geomorph;
 mod geomorph_data;
 mod location;
