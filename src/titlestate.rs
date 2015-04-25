@@ -1,20 +1,18 @@
 use calx::{V2, color, FromColor, ToColor, Rgba, Anchor};
 use calx::backend::{Key, Event};
-use calx::backend::{CanvasUtil, Fonter, Align};
+use calx::backend::{Canvas, CanvasUtil, Fonter, Align};
 use tilecache;
 use world::action;
-use ::{Transition, State};
+use ::{Transition, State, screenshot};
 
 pub struct TitleState {
     tick: usize,
-    screenshot_requested: bool,
 }
 
 impl TitleState {
     pub fn new() -> TitleState {
         TitleState {
             tick: 0,
-            screenshot_requested: false,
         }
     }
 
@@ -40,15 +38,10 @@ impl TitleState {
 }
 
 impl State for TitleState {
-    fn process(&mut self, event: Event) -> Option<Transition> {
+    fn process(&mut self, ctx: &mut Canvas, event: Event) -> Option<Transition> {
         self.tick += 1;
         match event {
-            Event::Render(ctx) => {
-                if self.screenshot_requested {
-                    ::screenshot(ctx);
-                    self.screenshot_requested = false;
-                }
-
+            Event::RenderFrame => {
                 ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, &self.fade_in(&color::MEDIUMAQUAMARINE), &color::BLACK);
                 Fonter::new(ctx)
                     .color(&self.when_faded(color::DARKCYAN))
@@ -75,7 +68,6 @@ impl State for TitleState {
             Event::KeyPressed(Key::Escape) => {
                 return Some(Transition::Exit);
             }
-            Event::KeyPressed(Key::F12) => { self.screenshot_requested = true; }
             Event::KeyPressed(Key::Q) => {
                 return Some(Transition::Exit);
             }
@@ -83,6 +75,10 @@ impl State for TitleState {
                 action::delete_save();
                 return Some(Transition::Game(None));
             }
+            Event::Quit => {
+                return Some(Transition::Exit);
+            }
+            Event::KeyPressed(Key::F12) => { screenshot(ctx); }
             Event::KeyPressed(_) => {
                 return Some(Transition::Game(None));
             }
