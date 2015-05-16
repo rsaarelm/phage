@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use calx::Rgb;
+use calx::Rgba;
 use location::Location;
 use {Biome};
 use item::{ItemType};
@@ -15,7 +15,7 @@ pub struct IsPrototype;
 pub struct Desc {
     pub name: String,
     pub icon: usize,
-    pub color: Rgb,
+    pub color: Rgba,
 }
 
 impl Desc {

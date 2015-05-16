@@ -1,5 +1,4 @@
 use std::cmp::max;
-use std::num::{SignedInt};
 use calx::V2;
 
 /// Hex grid geometry for vectors.

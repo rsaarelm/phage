@@ -1,5 +1,4 @@
 use num::{Integer};
-use std::num::{Float};
 use std::iter::{Iterator, Chain};
 use std::option::{IntoIter};
 use calx::{V2};

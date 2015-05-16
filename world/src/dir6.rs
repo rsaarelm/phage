@@ -1,6 +1,6 @@
 use std::slice;
 use num::{Integer};
-use std::num::{FromPrimitive, Float};
+use std::num::{FromPrimitive};
 use std::ops::{Add, Sub};
 use std::f32::consts::PI;
 use calx::V2;

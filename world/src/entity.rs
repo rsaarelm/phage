@@ -1,5 +1,5 @@
 use std::default::Default;
-use calx::{Dijkstra, Rgb, color};
+use calx::{Dijkstra, Rgba, color};
 use world;
 use location::{Location};
 use dir6::Dir6;
@@ -51,7 +51,7 @@ impl Entity {
         )
     }
 
-    pub fn get_icon(self) -> Option<(usize, Rgb)> {
+    pub fn get_icon(self) -> Option<(usize, Rgba)> {
         world::with(|w|
             if let Some(desc) = w.descs().get(self) {
                 Some((desc.icon, desc.color))
