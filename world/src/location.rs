@@ -160,7 +160,9 @@ impl Location {
     }
 
     /// Try to find a nearby valid location if self doesn't satisfy predicate.
-    pub fn spill<P: Fn<(Location,), Output=bool>>(&self, valid_pos: P) -> Option<Location> {
+    pub fn spill<P>(&self, valid_pos: P) -> Option<Location>
+        where P: Fn(Location) -> bool
+    {
         if valid_pos(*self) { return Some(*self); }
         if let Some(loc) = Dir6::iter().map(|d| *self + d.to_v2()).find(|&x| valid_pos(x)) {
             return Some(loc);
