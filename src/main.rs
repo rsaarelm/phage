@@ -1,5 +1,4 @@
 #![crate_name="phage"]
-#![feature(path_ext)]
 
 extern crate image;
 
