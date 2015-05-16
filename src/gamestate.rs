@@ -261,7 +261,7 @@ impl GameState {
     /// Repaint view, update game world if needed.
     pub fn update(&mut self, ctx: &mut Canvas) {
         if self.screenshot_requested {
-            ::screenshot(ctx);
+            ctx.save_screenshot(&"phage");
             self.screenshot_requested = false;
         }
 

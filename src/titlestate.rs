@@ -3,7 +3,7 @@ use calx::backend::{Key, Event};
 use calx::backend::{Canvas, CanvasUtil, Fonter, Align};
 use tilecache;
 use world::action;
-use ::{Transition, State, screenshot};
+use ::{Transition, State};
 
 pub struct TitleState {
     tick: usize,
@@ -78,7 +78,7 @@ impl State for TitleState {
             Event::Quit => {
                 return Some(Transition::Exit);
             }
-            Event::KeyPressed(Key::F12) => { screenshot(ctx); }
+            Event::KeyPressed(Key::F12) => { ctx.save_screenshot(&"phage"); }
             Event::KeyPressed(_) => {
                 return Some(Transition::Game(None));
             }
