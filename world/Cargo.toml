@@ -15,5 +15,7 @@ name = "world"
 
 [dependencies.rand_macros]
 
+[dependencies.vec_map]
+
 [dependencies.calx]
 git = "https://github.com/rsaarelm/calx"
