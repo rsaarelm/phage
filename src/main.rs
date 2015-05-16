@@ -39,19 +39,14 @@ pub enum Transition {
 
 pub fn version() -> String {
     let next_release = "0.1.0";
-    let git_hash = include_str!("git_hash.inc");
     // Set is_release to true for one commit to make a release.
     let is_release = false;
 
     if is_release {
         format!("{}", next_release)
     } else {
-        format!("{}-alpha+g{}", next_release, git_hash)
+        format!("{}-alpha", next_release)
     }
-}
-
-pub fn compiler_version() -> String {
-    include_str!("../rustc_version.txt").trim().to_string()
 }
 
 pub fn main() {
