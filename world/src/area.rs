@@ -9,7 +9,7 @@ use mapgen;
 use {AreaSpec, Biome};
 use components::{Category};
 use spawn::Spawn;
-use dir6::Dir6;
+use calx::Dir6;
 
 // Note to maintainer: Due to the way serialization works, Area *must* be
 // generated to have exactly the same contents every time given the same seed

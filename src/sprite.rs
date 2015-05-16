@@ -1,5 +1,5 @@
 use std::slice::Iter;
-use calx::{color, V2};
+use calx::{color, ToColor, V2, Dir6, clamp};
 use calx::backend::{Canvas, CanvasUtil};
 use world::{Location, Unchart};
 use viewutil::{FX_Z, chart_to_screen};

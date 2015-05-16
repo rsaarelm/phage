@@ -1,9 +1,7 @@
 use std::ops::{Add};
-use calx::{DijkstraNode, V2, noise};
-use dir6::Dir6;
+use calx::{V2, Dir6, HexGeom, DijkstraNode, noise};
 use entity::Entity;
 use terrain::TerrainType;
-use geom::HexGeom;
 use world;
 use action;
 use flags;

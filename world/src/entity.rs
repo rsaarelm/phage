@@ -1,11 +1,9 @@
 use std::default::Default;
-use calx::{Dijkstra, Rgba, color};
+use calx::{Dijkstra, Rgba, color, Dir6, HexGeom};
 use world;
 use location::{Location};
-use dir6::Dir6;
 use flags;
 use components::{BrainState, Alignment, Brain};
-use geom::HexGeom;
 use spatial::Place;
 use action;
 use fov::Fov;
