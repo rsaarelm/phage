@@ -25,26 +25,11 @@ impl Prototype {
             }),
         }
     }
-}
 
-impl<C: Component> Fn<(C,)> for Prototype {
-    extern "rust-call" fn call(&self, (comp,): (C,)) -> Prototype {
-        comp.add_to(self.target);
-        *self
-    }
-}
-
-impl<C: Component> FnMut<(C,)> for Prototype {
-    extern "rust-call" fn call_mut(&mut self, (comp,): (C,)) -> Prototype {
-        Fn::call(*&self, (comp,))
-    }
-}
-
-impl<C: Component> FnOnce<(C,)> for Prototype {
-    type Output = Prototype;
-
-    extern "rust-call" fn call_once(self, (comp,): (C,)) -> Prototype {
-        Fn::call(&self, (comp,))
+    /// Add a component to the prototype.
+    pub fn c<C: Component>(self, component: C) -> Prototype {
+        component.add_to(self.target);
+        self
     }
 }
 
@@ -52,97 +37,97 @@ impl<C: Component> FnOnce<(C,)> for Prototype {
 /// Only call at world init!
 pub fn init() {
     let base_mob = Prototype::new(None)
-        (Brain { state: BrainState::Asleep, alignment: Alignment::Indigenous })
-        ({let h: Health = Default::default(); h})
+        .c(Brain { state: BrainState::Asleep, alignment: Alignment::Indigenous })
+        .c({let h: Health = Default::default(); h})
         .target;
 
     let colonist = Prototype::new(None)
-        (Brain { state: BrainState::Asleep, alignment: Alignment::Colonist })
-        ({let h: Health = Default::default(); h})
+        .c(Brain { state: BrainState::Asleep, alignment: Alignment::Colonist })
+        .c({let h: Health = Default::default(); h})
         .target;
 
     // Init the prototypes
 
     // Player
     Prototype::new(Some(base_mob))
-        (Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
-        (Desc::new("phage", 40, CYAN))
-        (Stats::new(2, &[Fast]).attack(3))
-        (MapMemory::new())
+        .c(Brain { state: BrainState::PlayerControl, alignment: Alignment::Phage })
+        .c(Desc::new("phage", 40, CYAN))
+        .c(Stats::new(2, &[Fast]).attack(3))
+        .c(MapMemory::new())
         ;
 
     // Enemies
 
     // Indigenous
     Prototype::new(Some(base_mob))
-        (Desc::new("hopper", 32, YELLOW))
-        (Stats::new(4, &[]).protection(-2))
-        (Spawn::new(Category::Mob).commonness(2000))
+        .c(Desc::new("hopper", 32, YELLOW))
+        .c(Stats::new(4, &[]).protection(-2))
+        .c(Spawn::new(Category::Mob).commonness(2000))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("stalker", 60, ORCHID))
-        (Stats::new(4, &[]))
-        (Spawn::new(Category::Mob))
+        .c(Desc::new("stalker", 60, ORCHID))
+        .c(Stats::new(4, &[]))
+        .c(Spawn::new(Category::Mob))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("metawasp", 58, ORANGERED))
+        .c(Desc::new("metawasp", 58, ORANGERED))
         // Glass cannon
-        (Stats::new(4, &[Fast]).protection(-1).attack(2))
-        (Spawn::new(Category::Mob).commonness(600))
+        .c(Stats::new(4, &[Fast]).protection(-1).attack(2))
+        .c(Spawn::new(Category::Mob).commonness(600))
         ;
 
     // Can open doors, good for base attack.
     Prototype::new(Some(base_mob))
-        (Desc::new("space monkey", 46, LAWNGREEN))
-        (Stats::new(6, &[Hands]))
-        (Spawn::new(Category::Mob).commonness(600))
+        .c(Desc::new("space monkey", 46, LAWNGREEN))
+        .c(Stats::new(6, &[Hands]))
+        .c(Spawn::new(Category::Mob).commonness(600))
         ;
 
     Prototype::new(Some(base_mob))
-        (Desc::new("rumbler", 38, OLIVE))
-        (Stats::new(8, &[Slow]))
-        (Spawn::new(Category::Mob).commonness(100))
+        .c(Desc::new("rumbler", 38, OLIVE))
+        .c(Stats::new(8, &[Slow]))
+        .c(Spawn::new(Category::Mob).commonness(100))
         ;
 
     // Colonist enemies
 
     Prototype::new(Some(colonist))
-        (Desc::new("colonist", 34, DARKORANGE))
-        (Stats::new(6, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Base))
-        (Colonist::new())
+        .c(Desc::new("colonist", 34, DARKORANGE))
+        .c(Stats::new(6, &[Hands]))
+        .c(Spawn::new(Category::Mob).biome(Base))
+        .c(Colonist::new())
         ;
 
     // TODO: Ranged attack
     Prototype::new(Some(colonist))
-        (Desc::new("marine", 36, DARKOLIVEGREEN))
-        (Stats::new(8, &[Hands]))
-        (Spawn::new(Category::Mob).biome(Base).commonness(400))
-        (Colonist::new())
+        .c(Desc::new("marine", 36, DARKOLIVEGREEN))
+        .c(Stats::new(8, &[Hands]))
+        .c(Spawn::new(Category::Mob).biome(Base).commonness(400))
+        .c(Colonist::new())
         ;
 
     // TODO: Ranged attack
     Prototype::new(Some(colonist))
-        (Desc::new("cyber controller", 42, LIGHTSLATEGRAY))
-        (Stats::new(12, &[Slow, Hands, Robotic]))
-        (Colonist::new())
-        (Spawn::new(Category::Mob).biome(Base).commonness(40))
+        .c(Desc::new("cyber controller", 42, LIGHTSLATEGRAY))
+        .c(Stats::new(12, &[Slow, Hands, Robotic]))
+        .c(Colonist::new())
+        .c(Spawn::new(Category::Mob).biome(Base).commonness(40))
         ;
 
     // Dogs count as colonists because of terran DNA
     Prototype::new(Some(colonist))
-        (Desc::new("dog", 44, OLIVE))
-        (Stats::new(4, &[]))
-        (Spawn::new(Category::Mob).biome(Base))
-        (Colonist::new())
+        .c(Desc::new("dog", 44, OLIVE))
+        .c(Stats::new(4, &[]))
+        .c(Spawn::new(Category::Mob).biome(Base))
+        .c(Colonist::new())
         ;
 
     // Robots don't count as colonists, being completely inorganic
     Prototype::new(Some(colonist))
-        (Desc::new("robot", 62, SILVER))
-        (Stats::new(6, &[Hands, Robotic, Slow]))
-        (Spawn::new(Category::Mob).biome(Base).commonness(200))
+        .c(Desc::new("robot", 62, SILVER))
+        .c(Stats::new(6, &[Hands, Robotic, Slow]))
+        .c(Spawn::new(Category::Mob).biome(Base).commonness(200))
         ;
 }
