@@ -74,13 +74,13 @@ impl Area {
             .filter(|&(loc, &t)| t.valid_spawn_spot() && biomes.get(loc) == Some(&Biome::Overland))
             .map(|(&loc, _)| loc)
             .collect();
-        rng.shuffle(outdoors.as_mut_slice());
+        rng.shuffle(&mut outdoors[..]);
 
         let mut bases: Vec<Location> = terrain.iter()
             .filter(|&(loc, &t)| t.valid_spawn_spot() && biomes.get(loc) == Some(&Biome::Base))
             .map(|(&loc, _)| loc)
             .collect();
-        rng.shuffle(bases.as_mut_slice());
+        rng.shuffle(&mut bases[..]);
 
         let entrance = outdoors.pop().unwrap();
 
