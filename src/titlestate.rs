@@ -1,4 +1,5 @@
-use calx::{V2, color, FromColor, ToColor, Rgba, Anchor};
+use std::convert::{Into};
+use calx::{V2, color, Rgba, Anchor};
 use calx::backend::{Key, Event};
 use calx::backend::{Canvas, CanvasUtil, Fonter, Align};
 use tilecache;
@@ -21,19 +22,14 @@ impl TitleState {
 static FADE_TIME: usize = 64;
 
 impl TitleState {
-    fn fade_in<C: ToColor>(&self, col: &C) -> Rgba {
+    fn fade_in<C: Into<Rgba>>(&self, col: C) -> Rgba {
         let scale = if self.tick < FADE_TIME { self.tick as f32 }
             else { FADE_TIME as f32 } / FADE_TIME as f32;
-        let mut rgba = col.to_rgba();
-        for i in 0..4 {
-            rgba[i] *= scale;
-        }
-
-        FromColor::from_rgba(rgba)
+        col.into() * scale
     }
 
-    fn when_faded<C: FromColor>(&self, col: C) -> C {
-        if self.tick < FADE_TIME { FromColor::from_color(&color::BLACK) } else { col }
+    fn when_faded<C: Into<Rgba>>(&self, col: C) -> Rgba {
+        if self.tick < FADE_TIME { color::BLACK } else { col.into() }
     }
 }
 
@@ -42,23 +38,23 @@ impl State for TitleState {
         self.tick += 1;
         match event {
             Event::RenderFrame => {
-                ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, &self.fade_in(&color::MEDIUMAQUAMARINE), &color::BLACK);
+                ctx.draw_image(tilecache::get(tilecache::LOGO), V2(282.0, 180.0), 0.0, self.fade_in(color::MEDIUMAQUAMARINE), color::BLACK);
                 Fonter::new(ctx)
-                    .color(&self.when_faded(color::DARKCYAN))
+                    .color(self.when_faded(color::DARKCYAN))
                     .anchor(Anchor::Bottom)
                     .align(Align::Center)
                     .text(format!("Copyright (C) Risto Saarelma 2015\nv{}{}", ::version(), if !cfg!(ndebug) { " debug" } else { "" }))
                     .draw(V2(320.0, 352.0));
 
                 Fonter::new(ctx)
-                    .color(&self.when_faded(color::DARKCYAN))
+                    .color(self.when_faded(color::DARKCYAN))
                     .anchor(Anchor::TopLeft)
                     .align(Align::Left)
                     .text("N)ew game\nQ)uit".to_string())
                     .draw(V2(280.0, 240.0));
                 if action::save_exists() {
                     Fonter::new(ctx)
-                        .color(&self.when_faded(color::DARKCYAN))
+                        .color(self.when_faded(color::DARKCYAN))
                         .anchor(Anchor::TopLeft)
                         .align(Align::Left)
                         .text("C)ontinue game".to_string())

@@ -1,5 +1,5 @@
 use std::slice::Iter;
-use calx::{color, ToColor, V2, Dir6, clamp};
+use calx::{color, V2, Dir6, clamp};
 use calx::backend::{Canvas, CanvasUtil};
 use world::{Location, Unchart};
 use viewutil::{FX_Z, chart_to_screen};
@@ -87,7 +87,7 @@ impl WorldSprite for BeamSprite {
             ctx.draw_line(2.0,
                 chart_to_screen(p1) + pixel_adjust,
                 chart_to_screen(p2) + pixel_adjust,
-                FX_Z, &color::ORANGE);
+                FX_Z, color::ORANGE);
         }
     }
 }
@@ -116,7 +116,7 @@ impl WorldSprite for GibSprite {
         if let Some(p) = chart.chart_pos(self.loc) {
             // TODO: Robust anim cycle with clamping.
             let idx = tile::SPLATTER + ((11 - self.life) / 3) as usize;
-            ctx.draw_image(tilecache::get(idx), chart_to_screen(p), FX_Z, &color::RED, &color::BLACK);
+            ctx.draw_image(tilecache::get(idx), chart_to_screen(p), FX_Z, color::RED, color::BLACK);
         }
     }
 }

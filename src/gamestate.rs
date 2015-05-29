@@ -86,7 +86,7 @@ impl GameState {
             let idx = if hp >= (i + 1) * 2 { icon::HEART }
                 else if hp == i * 2 + 1 { icon::HALF_HEART }
                 else { icon::NO_HEART };
-            ctx.draw_image(tilecache::get(idx), pos, 0.0, &color::FIREBRICK, &color::BLUE);
+            ctx.draw_image(tilecache::get(idx), pos, 0.0, color::FIREBRICK, color::BLUE);
         }
     }
 
@@ -102,7 +102,7 @@ impl GameState {
         let count = action::terrans_left();
 
         Fonter::new(ctx)
-            .color(&color::LIGHTGRAY).border(&color::BLACK)
+            .color(color::LIGHTGRAY).border(color::BLACK)
             .anchor(Anchor::TopRight).align(Align::Right)
             .text(format!("{} terran{} in zone", count, if count != 1 { "s" } else { "" }))
             .draw(V2(638.0, 0.0));
@@ -115,7 +115,7 @@ impl GameState {
         /*
         let fps = 1.0 / ctx.render_duration;
         Fonter::new(ctx)
-            .color(&color::LIGHTGRAY).border(&color::BLACK)
+            .color(color::LIGHTGRAY).border(color::BLACK)
             .text(format!("FPS {:.0}", fps))
             .draw(V2(0.0, 8.0));
         */
@@ -176,19 +176,19 @@ impl GameState {
         let player = action::player().unwrap();
         for (i, slot_data) in SLOT_DATA.iter().enumerate() {
             let y = 8.0 * (i as f32);
-            Fonter::new(ctx).color(&color::LIGHTGRAY)
+            Fonter::new(ctx).color(color::LIGHTGRAY)
                 .align(Align::Center).anchor(Anchor::Top)
                 .text(format!("{}", slot_data.key))
                 .draw(V2(4.0, y));
-            Fonter::new(ctx).color(&color::LIGHTGRAY)
+            Fonter::new(ctx).color(color::LIGHTGRAY)
                 .text("]".to_string())
                 .draw(V2(8.0, y));
-            Fonter::new(ctx).color(&color::LIGHTGRAY)
+            Fonter::new(ctx).color(color::LIGHTGRAY)
                 .align(Align::Right).anchor(Anchor::TopRight)
                 .text(format!("{}:", slot_data.name))
                 .draw(V2(76.0, 8.0 * (i as f32)));
 
-            Fonter::new(ctx).color(&color::LIGHTGRAY)
+            Fonter::new(ctx).color(color::LIGHTGRAY)
                 .text(match player.equipped(slot_data.slot) {
                     Some(item) => item.name(),
                     None => "".to_string()
@@ -196,7 +196,7 @@ impl GameState {
                 .draw(V2(80.0, 8.0 * (i as f32)));
         }
 
-        Fonter::new(ctx).color(&color::LIGHTGRAY)
+        Fonter::new(ctx).color(color::LIGHTGRAY)
             .anchor(Anchor::BottomLeft)
             .text("Press letter to equip/unequip item. Press shift+letter to drop item.".to_string())
             .draw(V2(0.0, 360.0));
