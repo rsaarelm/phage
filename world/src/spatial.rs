@@ -58,7 +58,7 @@ impl Spatial {
     /// Return whether the parent entity or an entity contained in the parent
     /// entity contains entity e.
     pub fn contains(&self, parent: Entity, Entity(idx): Entity) -> bool {
-        match self.entity_to_place.get(&idx) {
+        match self.entity_to_place.get(idx) {
             Some(&In(p, _)) if p == parent => true,
             Some(&In(p, _)) => self.contains(parent, p),
             _ => false
@@ -81,10 +81,10 @@ impl Spatial {
     /// items. Unless the entity is added back in or the contents are handled
     /// somehow, this will leave the spatial index in an inconsistent state.
     fn single_remove(&mut self, Entity(idx): Entity) {
-        if !self.entity_to_place.contains_key(&idx) { return; }
+        if !self.entity_to_place.contains_key(idx) { return; }
 
-        let &p = self.entity_to_place.get(&idx).unwrap();
-        self.entity_to_place.remove(&idx);
+        let &p = self.entity_to_place.get(idx).unwrap();
+        self.entity_to_place.remove(idx);
 
         {
             let v = self.place_to_entities.get_mut(&p).unwrap();
@@ -92,7 +92,7 @@ impl Spatial {
             if v.len() > 1 {
                 // More than one entity present, remove this one, keep the
                 // rest.
-                for i in (0..v.len()) {
+                for i in 0..v.len() {
                     if v[i] == Entity(idx) {
                         v.swap_remove(i);
                         return;
@@ -171,7 +171,7 @@ impl Spatial {
 
     /// Return the place of an entity if the entity is present in the space.
     pub fn get(&self, Entity(idx): Entity) -> Option<Place> {
-        self.entity_to_place.get(&idx).map(|&loc| loc)
+        self.entity_to_place.get(idx).map(|&loc| loc)
     }
 
     /// Flatten to an easily serializable vector.

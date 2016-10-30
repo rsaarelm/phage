@@ -1,3 +1,4 @@
+use std::u32;
 use rand::Rng;
 use rand::distributions::{Weighted, WeightedChoice, IndependentSample};
 use components::{Category};
@@ -26,10 +27,10 @@ impl Spawn {
     /// Empty categories or biomes are treated as matching any category or
     /// biome.
     pub fn new(depth: i32, categories: Vec<Category>, biomes: Vec<Biome>) -> Spawn {
-        let category_mask = if categories.is_empty() { -1 }
+        let category_mask = if categories.is_empty() { u32::MAX }
         else { categories.into_iter().fold(0, |a, x| a | x as u32) };
 
-        let biome_mask = if biomes.is_empty() { -1 }
+        let biome_mask = if biomes.is_empty() { u32::MAX }
         else { biomes.into_iter().fold(0, |a, x| a | x as u32) };
 
         Spawn {
