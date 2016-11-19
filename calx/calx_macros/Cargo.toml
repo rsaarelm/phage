@@ -1,0 +1,12 @@
+[package]
+name = "calx_macros"
+version = "0.2.0"
+authors = ["Risto Saarelma <risto.saarelma@iki.fi>"]
+description = "Rust game development helper library macros"
+keywords = ["gamedev"]
+license = "MIT"
+
+[lib]
+name = "calx_macros"
+plugin = true
+crate-type = ["rlib"]
